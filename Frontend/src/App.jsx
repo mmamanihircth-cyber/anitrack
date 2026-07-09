@@ -8,7 +8,7 @@ import { AuthContextProvider } from './context/AuthContext'
 import AlreadyAuthMiddleware from './middlewares/AlreadyAuthMiddleware'
 import AuthMiddleware from './middlewares/AuthMiddleware'
 import { AnimeDetailScreen } from './Screens/AnimeDetailScreen/AnimeDetailScreen'
-import './app.css'
+import './App.css'
 
 const App = () => {
   return (
