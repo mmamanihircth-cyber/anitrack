@@ -1,7 +1,7 @@
 // Borrá o comentá esta línea que falla:
 // import ENVIRONMENT from '../config/environment'
 
-const API_URL = 'http://localhost:8080/api/auth';
+const API_URL = 'https://anitrack-back.vercel.app/api/auth';
 
 export async function login(email, password) {
     try {
