@@ -29,4 +29,11 @@ authRouter.post(
     authController.resetPasswordConfirm
 )
 
+authRouter.get(
+    '/profile',
+    // Aquí más adelante vas a meter tu middleware de autenticación (ej: authMiddleware)
+    authController.profile 
+)
+
+
 export default authRouter

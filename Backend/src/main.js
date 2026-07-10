@@ -32,20 +32,23 @@ app.use('/api/workspace', workspaceRouter);
 app.use('/api/notifications', notificationRouter);
 
 app.get(
-    '/api/profile', 
+    "/api/profile",
     authMiddleware,
     (request, response) => {
-        console.log(
-            'Nombre del cliente:',
-            request.user.nombre
-        );
-        return response.json({
+
+        return response.status(200).json({
             ok: true,
             status: 200,
-            message: "Estas autenticado"
-        });
+            data: {
+                id: request.user.id,
+                nombre: request.user.nombre,
+                email: request.user.email,
+                fecha_creacion: request.user.fecha_creacion
+            }
+        })
+
     }
-);
+)
 
 app.use(errorHandlerMiddleware);
 
