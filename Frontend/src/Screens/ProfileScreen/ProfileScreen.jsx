@@ -1,8 +1,11 @@
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import "./ProfileScreen.css";
+import { useNavigate } from "react-router";
 
 const ProfileScreen = () => {
+
+    const navigate = useNavigate();
 
     const { userData, logout } = useContext(AuthContext);
 
@@ -10,6 +13,13 @@ const ProfileScreen = () => {
         <main className="profile-page">
 
             <section className="profile-container">
+
+                <button 
+    className="profile-back-btn"
+    onClick={() => navigate('/home')}
+>
+    ← Home
+</button>
 
                 <h1 className="profile-title">
                     Mi Perfil
