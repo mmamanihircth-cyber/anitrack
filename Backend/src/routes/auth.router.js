@@ -1,6 +1,6 @@
 import express from 'express'
 import authController from '../controllers/auth.controller.js'
-
+import authMiddleware from '../middlewares/auth.middleware.js'
 
 const authRouter = express.Router()
 
@@ -31,7 +31,7 @@ authRouter.post(
 
 authRouter.get(
     '/profile',
-    // Aquí más adelante vas a meter tu middleware de autenticación (ej: authMiddleware)
+    authMiddleware, 
     authController.profile 
 )
 
