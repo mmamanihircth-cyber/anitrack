@@ -362,19 +362,12 @@ class AuthController {
 
     async profile(request, response) {
     try {
-        const user = request.user; 
-
         return response.status(200).json({
             ok: true,
-            message: "Perfil obtenido con éxito",
-            user: {
-                id: user.id,
-                email: user.email
-                // Si esto rompe, es porque 'user' viene vacío o no tiene .id/.email
-            }
+            message: "Revisando qué tiene el token",
+            user_info_real: request.user 
         });
     } catch (error) {
-        // Cambiamos esto temporalmente para que Postman nos confiese el error real:
         return response.status(500).json({ 
             ok: false, 
             message: error.message 
