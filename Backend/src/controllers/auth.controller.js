@@ -371,7 +371,8 @@ class AuthController {
             user: {
                 id: user.id,
                 email: user.email,
-                nombre: user.nombre
+                nombre: user.nombre,
+                fecha_creacion: user.fecha_creacion
             }
         });
     } catch (error) {
