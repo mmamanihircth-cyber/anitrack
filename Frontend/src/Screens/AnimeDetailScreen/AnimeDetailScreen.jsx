@@ -105,19 +105,15 @@ const decreaseEpisodes = () => {
 };
 
 const handleFavorite = async () => {
-
     try {
-
         const data = await toggleFavorite(anime.id);
-
-        setFavorite(response.favorite);
-
+        
+        // Usamos 'data' que es donde guardamos el resultado
+        setFavorite(data.favorite); 
+        
     } catch (error) {
-
-        console.error(error);
-
+        console.error("Error al actualizar favoritos en pantalla:", error);
     }
-
 };
 const handleStatusChange = async (event) => {
 
