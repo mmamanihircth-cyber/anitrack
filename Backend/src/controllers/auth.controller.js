@@ -362,15 +362,22 @@ class AuthController {
 
     async profile(request, response) {
     try {
+        // request.user va a tener los datos en cuanto configuremos Vercel
+        const user = request.user; 
+
         return response.status(200).json({
             ok: true,
-            message: "Revisando qué tiene el token",
-            user_info_real: request.user 
+            message: "Perfil obtenido con éxito",
+            user: {
+                id: user.id,
+                email: user.email,
+                nombre: user.nombre
+            }
         });
     } catch (error) {
         return response.status(500).json({ 
             ok: false, 
-            message: error.message 
+            message: "Error interno al obtener el perfil" 
         });
     }
 }
