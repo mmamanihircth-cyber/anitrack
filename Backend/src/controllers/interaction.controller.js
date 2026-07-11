@@ -8,31 +8,45 @@ class InteractionController {
     
     // 1. CREAR O ACTUALIZAR UN COMENTARIO/RESEÑA (Recibe el anime_id de texto del Front)
     async createOrUpdateReview(request, response) {
-        try {
-            const usuario_id = request.user.id;
-            const { anime_id, puntuacion, comentario } = request.body;
+    try {
+        // Usamos consistentemente 'request' que es como entra por parámetro
+        const usuario_id = request.user.id; 
+        const { anime_id, puntuacion, comentario } = request.body;
 
-            if (!anime_id || !puntuacion) {
-                throw new ServerError("El ID del anime y la puntuación son obligatorios", 400);
-            }
-
-            // upsert: true se encarga de crear el comentario si no existe, o actualizarlo si el usuario ya comentó ese anime
-            const review = await Review.findOneAndUpdate(
-                { usuario_id: req.user.id, anime_id },
-                { puntuacion, comentario },
-                { new: true, upsert: true}
-            );
-            await review.populate('usuario_id', 'username avatarUrl');
-            return response.status(200).json({
-                ok: true,
-                review 
+        if (!anime_id || !puntuacion) {
+            return response.status(400).json({ 
+                ok: false, 
+                message: "El ID del anime y la puntuación son obligatorios" 
             });
-        } catch (error) {
-            console.error(error);
-            return response.status(500).json({ ok: false, message: "Error al procesar el comentario" });
         }
-    }
 
+        // Realizamos la búsqueda, actualización y populación en una sola cadena limpia
+        const review = await Review.findOneAndUpdate(
+            { usuario_id: usuario_id, anime_id }, // 🌟 Corregido a usuario_id
+            { puntuacion, comentario },
+            { new: true, upsert: true }
+        ).populate('usuario_id', 'username avatarUrl'); // 🌟 Un solo populate encadenado
+
+        if (!review) {
+            return response.status(400).json({ 
+                ok: false, 
+                message: "No se pudo crear la review" 
+            });
+        }
+
+        return response.status(200).json({
+            ok: true,
+            review
+        });
+
+    } catch (error) {
+        console.error("Error detallado en el backend:", error);
+        return response.status(500).json({ 
+            ok: false, 
+            message: "Error al procesar el comentario" 
+        });
+    }
+}
     // 2. DAR O QUITAR LIKE (Toggle) + Crear Notificación
     async toggleLike(request, response) {
         try {
