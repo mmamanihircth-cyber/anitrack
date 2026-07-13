@@ -5,29 +5,61 @@ import workspacefeedcontroller from '../controllers/workspaceFeed.controller.js'
 
 const interactionRouter = express.Router();
 
-interactionRouter.get("/workspace/:workspace_id", authMiddleware, workspaceFeedController.getFeedByWorkspace);
+// 1. RUTA PÚBLICA: Obtener comentarios de un anime (Función flecha segura)
+interactionRouter.get('/review/anime/:anime_front_id', (req, res, next) => {
+    return interactionController.getReviewsByAnime(req, res, next);
+});
 
-// Publicar un nuevo comentario/post en el foro de un Workspace específico
-interactionRouter.post("/workspace/:workspace_id", authMiddleware, workspaceFeedController.createPost);
+// A partir de acá se requiere token de autenticación
+interactionRouter.use(authMiddleware);
 
+// 2. CREAR O ACTUALIZAR COMENTARIO
+interactionRouter.post('/review', (req, res, next) => {
+    return interactionController.createOrUpdateReview(req, res, next);
+});
 
-/* ==========================================
-   RESEÑAS DE ANIME Y LISTAS (EXISTENTE)
-   ========================================== */
+// 3. DAR LIKE
+interactionRouter.post('/review/:review_id/like', (req, res, next) => {
+    return interactionController.toggleLike(req, res, next);
+});
 
-// Reseñas e interacciones de animes individuales
-interactionRouter.post("/review", authMiddleware, interactionController.createOrUpdateReview);
-interactionRouter.get("/review/:anime_front_id", interactionController.getReviewsByAnime);
+// 4. DAR DISLIKE
+interactionRouter.post('/review/:review_id/dislike', (req, res, next) => {
+    return interactionController.toggleDislike(req, res, next);
+});
 
-// Likes / Dislikes / Respuestas a las reseñas
-interactionRouter.put("/review/:review_id/like", authMiddleware, interactionController.toggleLike);
-interactionRouter.put("/review/:review_id/dislike", authMiddleware, interactionController.toggleDislike);
-interactionRouter.post("/review/:review_id/reply", authMiddleware, interactionController.addReply);
+// 5. RESPONDER COMENTARIO
+interactionRouter.post('/review/:review_id/reply', (req, res, next) => {
+    return interactionController.addReply(req, res, next);
+});
 
-// Gestión de listas personales y favoritos del usuario
-interactionRouter.post("/list", authMiddleware, interactionController.addOrUpdateInList);
-interactionRouter.get("/list", authMiddleware, interactionController.getMyList);
-interactionRouter.post("/favorite", authMiddleware, interactionController.toggleFavorite);
-interactionRouter.get("/favorite", authMiddleware, interactionController.getMyFavorites);
+// 6. AGREGAR A MI LISTA PERSONAL
+interactionRouter.post('/list', (req, res, next) => {
+    return interactionController.addOrUpdateInList(req, res, next);
+});
+
+// 7. OBTENER MI LISTA PERSONAL
+interactionRouter.get('/list', (req, res, next) => {
+    return interactionController.getMyList(req, res, next);
+});
+
+// 8. AGREGAR O QUITAR FAVORITO
+interactionRouter.post('/favorite', (req, res, next) => {
+    return interactionController.toggleFavorite(req, res, next);
+});
+
+// 9. OBTENER MIS FAVORITOS
+interactionRouter.get('/favorite', (req, res, next) => {
+    return interactionController.getMyFavorites(req, res, next);
+});
+
+interactionRouter.get('/workspace/:workspace_id', (req, res, next) => {
+    return workspaceFeedController.getFeedByWorkspace(req, res, next);
+});
+
+// Publicar un nuevo post en un Workspace específico
+interactionRouter.post('/workspace/:workspace_id', (req, res, next) => {
+    return workspaceFeedController.createPost(req, res, next);
+});
 
 export default interactionRouter;
