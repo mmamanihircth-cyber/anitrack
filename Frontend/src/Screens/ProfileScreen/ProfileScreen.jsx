@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
 import { getFavorites } from "../../services/interaction.service";
-import { MIS_ANIMES } from "../../data/animes.js"; // O la ruta correcta a tu archivo
+import { MIS_ANIMES } from "../../Data/animes.js"; 
 import "./ProfileScreen.css";
 
 const ProfileScreen = () => {
