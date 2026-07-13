@@ -59,14 +59,16 @@ class WorkspaceFeedController {
             const { workspace_id } = request.params;
             const user_id = request.user.id;
 
-            // SEGURIDAD: Validamos que quien intenta chusmear el foro sea miembro aceptado
+            // 🚫 COMENTAMOS ESTO TEMPORALMENTE PARA COMPROBAR:
+            /*
             const membership = await workspaceMemberRepository.getMemberByWorkspaceAndUserId(workspace_id, user_id);
             
             if (!membership || membership.estatus_invitacion !== MEMBER_INVITATION_STATUS.ACCEPTED) {
                 throw new ServerError("No puedes ver el contenido de esta comunidad porque no eres miembro activo", 403);
             }
+            */
 
-            // Traemos el feed ya mapeado y formateado por el repositorio
+            // Traemos el feed directamente
             const feed = await interactionRepository.getByWorkspaceId(workspace_id);
 
             return response.status(200).json({

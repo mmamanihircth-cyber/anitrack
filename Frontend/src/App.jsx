@@ -9,6 +9,7 @@ import AlreadyAuthMiddleware from './middlewares/AlreadyAuthMiddleware'
 import AuthMiddleware from './middlewares/AuthMiddleware'
 import { AnimeDetailScreen } from './Screens/AnimeDetailScreen/AnimeDetailScreen'
 import { ProfileScreen } from './Screens/ProfileScreen/ProfileScreen'
+import { WorkspaceFeedScreen } from './Screens/WorkspaceFeedScreen/WorkspaceFeedScreen'
 import './App.css'
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
         {/* 🔒 RUTAS PROTEGIDAS: Solo logueados */}
         <Route element={<AuthMiddleware />}>
           <Route path='/profile' element={<ProfileScreen />} />
+          <Route path="/workspace/:workspace_id" element={<WorkspaceFeedScreen />} />
         </Route>
         
         {/* 🔄 COMODÍN: Cualquier otra cosa rota vuelve al home */}

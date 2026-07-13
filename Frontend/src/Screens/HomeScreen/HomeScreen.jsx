@@ -96,6 +96,12 @@ export const HomeScreen = () => {
         <div className="header-user">
           {isLogged ? (
              <>
+             <button 
+                className="btn-comunidades" 
+                onClick={() => navigate('/workspace/6a5552cf14148bfd0067ef07')}
+              >
+                Comunidades
+              </button>
 
       <div 
         className="profile-link"

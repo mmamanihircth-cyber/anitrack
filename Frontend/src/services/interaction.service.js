@@ -202,3 +202,38 @@ export async function addReplyToReview(review_id, texto) {
         throw error;
     }
 }
+
+// Obtener todo el feed de debates de una comunidad (Workspace)
+export const getWorkspaceFeed = async (workspaceId, token) => {
+    try {
+        const response = await fetch(`https://anitrack-back.vercel.app/api/interactions/workspace/${workspaceId}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            }
+        });
+        return await response.json();
+    } catch (error) {
+        console.error("Error en getWorkspaceFeed:", error);
+        throw error;
+    }
+};
+
+// Publicar un nuevo post en la comunidad
+export const createWorkspacePost = async (workspaceId, contenido, token) => {
+    try {
+        const response = await fetch(`https://anitrack-back.vercel.app/api/interactions/workspace/${workspaceId}`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+            body: JSON.stringify({ contenido })
+        });
+        return await response.json();
+    } catch (error) {
+        console.error("Error en createWorkspacePost:", error);
+        throw error;
+    }
+};
