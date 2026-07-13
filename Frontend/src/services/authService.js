@@ -26,14 +26,15 @@ export async function login(email, password) {
     }
 }
 
-export async function register(name, email, password) {
+export async function register(name, email, password, imagen_url) { // 🌟 Agregamos 'imagen_url' acá
     try {
         const response_http = await fetch(`${API_URL}/register`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ name, email, password })
+            // 🌟 Mandamos 'imagen_url' adentro del JSON que recibe tu backend
+            body: JSON.stringify({ name, email, password, imagen_url }) 
         });
 
         const data = await response_http.json();
@@ -45,6 +46,26 @@ export async function register(name, email, password) {
         return data;
     } catch (error) {
         console.error("Error en register service:", error);
+        throw error;
+    }
+}
+
+export async function updateUserAvatar(imagen_url) {
+    try {
+        const token = localStorage.getItem("auth_token");
+        const response = await fetch('https://anitrack-back.vercel.app/api/auth/update-avatar', {
+            method: "PUT",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ imagen_url })
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message || "Error al actualizar el avatar");
+        return data; 
+    } catch (error) {
+        console.error("Error en updateUserAvatar:", error);
         throw error;
     }
 }

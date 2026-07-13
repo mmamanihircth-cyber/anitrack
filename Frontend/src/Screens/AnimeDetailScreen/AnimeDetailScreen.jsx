@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router'
 import { AuthContext } from '../../context/AuthContext'
 import { MIS_ANIMES } from '../../Data/animes'
-import { toggleFavorite, getFavorites, addOrUpdateInList, getReviewsByAnime, createReview } from "../../services/interaction.service";
+import { toggleFavorite, getFavorites, addOrUpdateInList, getReviewsByAnime, createReview, toggleLikeReview, addReplyToReview } from "../../services/interaction.service";
 import './AnimeDetailScreen.css'
 
 export const AnimeDetailScreen = () => {
@@ -38,6 +38,10 @@ export const AnimeDetailScreen = () => {
     const [episodesWatched, setEpisodesWatched] = useState(0);
 
     const [reviews, setReviews] = useState([]);
+
+    const [activeReplyId, setActiveReplyId] = useState(null);
+
+    const [replyText, setReplyText] = useState("");
 
     const [reviewText, setReviewText] = useState("");
 
@@ -181,7 +185,7 @@ const handlePublishReview = async () => {
     try {
         const respuesta = await createReview(anime.id, puntuacionBase10, reviewText);
         const nuevaReviewRaw = respuesta.review || respuesta.data || respuesta;
-        const nombreUsuarioActual = user?.nombre || user?.username || "dueño";
+        const nombreUsuarioActual = user?.nombre || user?.username;
         const nuevaReviewPopulada = {
         ...nuevaReviewRaw,
         usuario_id: {
@@ -201,6 +205,68 @@ const handlePublishReview = async () => {
 }
 };
 
+const handleLikeClick = async (reviewId) => {
+    if (!isLogged) {
+        alert("Debes iniciar sesión para dar like");
+        return;
+    }
+    try {
+        const res = await toggleLikeReview(reviewId);
+        if (res.ok) {
+            // Actualizamos dinámicamente las reviews mutando el array en el estado
+            setReviews(prevReviews => 
+                prevReviews.map(r => {
+                    const currentId = r.review?._id || r._id;
+                    if (currentId === reviewId) {
+                        // Clonamos la review y le actualizamos los likes con lo que mandó el backend
+                        const reviewData = r.review ? { ...r.review } : { ...r };
+                        
+                        // Si guardás el ID del usuario en tu AuthContext, podés hacer toggle visual real acá
+                        // Por simplicidad, usamos el contador exacto que ya te devuelve tu backend en data.likes
+                        if(r.review) {
+                            return { ...r, review: { ...reviewData, likes: new Array(res.data.likes).fill(1) } };
+                        } else {
+                            return { ...reviewData, likes: new Array(res.data.likes).fill(1) };
+                        }
+                    }
+                    return r;
+                })
+            );
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+};
+const handlePublishReply = async (reviewId) => {
+    if (!replyText.trim()) return;
+    try {
+        const res = await addReplyToReview(reviewId, replyText);
+        if (res.ok) {
+            // Inyectamos las respuestas actualizadas que nos mandó el back en la review correspondiente
+            setReviews(prevReviews => 
+                prevReviews.map(r => {
+                    const currentId = r.review?._id || r._id;
+                    if (currentId === reviewId) {
+                        if (r.review) {
+                            return { ...r, review: { ...r.review, respuestas: res.data.respuestas } };
+                        } else {
+                            return { ...r, respuestas: res.data.respuestas };
+                        }
+                    }
+                    return r;
+                })
+            );
+            setReplyText(""); // Limpiamos el input de respuesta
+            setActiveReplyId(null); // Cerramos el formulario de respuesta
+            
+            // 🌟 TIP CLAVE: Volvemos a pedir los comentarios para que el populate del nuevo usuario se aplique
+            // Si tenés una función como getReviews(), llamala acá abajo para asegurar el render de los nombres
+            // if (typeof getReviews === "function") getReviews();
+        }
+    } catch (error) {
+        alert(error.message);
+    }
+};
     return (
         <div className="detail-page">
 
@@ -867,35 +933,116 @@ const handlePublishReview = async () => {
                 : new Date().toLocaleDateString();
 
             return (
-                <article key={reviewData._id || reviewData.id} className="review-card">
-                    <div className="review-header">
-                        <div className="review-user">
-                            <div className="review-avatar">
-                                {userAvatarUrl ? (
-                                    <img src={userAvatarUrl} alt={username} className="avatar-img" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+    <article key={reviewData._id || reviewData.id} className="review-card">
+        <div className="review-header">
+            <div className="review-user">
+                <div className="review-avatar">
+                    {userAvatarUrl ? (
+                        <img src={userAvatarUrl} 
+            alt={username} 
+            className="avatar-img" style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} />
+                    ) : (
+                        inicial
+                    )}
+                </div>
+                <div>
+                    <strong>{username}</strong> 
+                    <span>{fechaFormateada}</span>
+                </div>
+            </div>
+            <div className="review-score">
+                {"★".repeat(estrellasRellenas)}
+                {"☆".repeat(5 - estrellasRellenas)}
+            </div>
+        </div>
+        
+        <p className="review-text">{textoComentario}</p>
+        
+        <div className="review-footer" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+    
+    {/* 🌟 Agrupamos el contador y el botón juntos a la izquierda */}
+    <div className="review-likes-wrapper" style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+        <span className="review-likes" style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+            ❤️ {reviewData.likes?.length || 0}
+        </span>
+        <button 
+            className="review-like-btn" 
+            onClick={() => handleLikeClick(reviewData._id || reviewData.id)}
+            style={{ cursor: 'pointer' }}
+        >
+            👍
+        </button>
+    </div>
+
+    {/* El botón de Reply se mantiene a la derecha o al lado según prefieras */}
+    {isLogged && (
+        <button 
+            className="review-reply-toggle-btn"
+            onClick={() => {
+                const rId = reviewData._id || reviewData.id;
+                setActiveReplyId(activeReplyId === rId ? null : rId);
+            }}
+            style={{ background: 'none', border: 'none', color: '#3b82f6', cursor: 'pointer' }}
+        >
+            💬 {activeReplyId === (reviewData._id || reviewData.id) ? "Cancel" : `Reply (${reviewData.respuestas?.length || 0})`}
+        </button>
+    )}
+</div>
+
+        {/* --- SECCIÓN DE RESPUESTAS INTERNAS --- */}
+<div className="review-replies-section">
+    {/* Listar respuestas existentes */}
+    {reviewData.respuestas && reviewData.respuestas.length > 0 && (
+        <div className="replies-list">
+            {reviewData.respuestas.map((reply) => {
+                const replyUser = reply.usuario_id?.nombre || "User";
+                const replyAvatar = reply.usuario_id?.imagen_url;
+                const replyInicial = replyUser.charAt(0).toUpperCase();
+                
+                const fechaReply = reply.fecha ? new Date(reply.fecha).toLocaleDateString() : new Date().toLocaleDateString();
+
+                return (
+                    <div key={reply._id || reply.id} className="reply-item">
+                        <div className="reply-user-info">
+                            <div className="reply-avatar-mini">
+                                {replyAvatar ? (
+                                    <img src={replyAvatar} alt={replyUser} />
                                 ) : (
-                                    inicial
+                                    replyInicial
                                 )}
                             </div>
-                            <div>
-                                <strong>{username}</strong> 
-                                <span>{fechaFormateada}</span>
-                            </div>
+                            <strong className="reply-username">{replyUser}</strong>
+                            <span className="reply-date">{fechaReply}</span>
                         </div>
-                        <div className="review-score">
-                            {"★".repeat(estrellasRellenas)}
-                            {"☆".repeat(5 - estrellasRellenas)}
-                        </div>
+                        <p className="reply-body-text">{reply.texto}</p>
                     </div>
-                    <p className="review-text">{textoComentario}</p>
-                    <div className="review-footer">
-                        <span className="review-likes">
-                            ❤️ {reviewData.likes?.length || 0} people found this review helpful
-                        </span>
-                        <button className="review-like-btn">👍</button>
-                    </div>
-                </article>
-            );
+                );
+            })}
+        </div>
+    )}
+
+    {/* Formulario para escribir una respuesta */}
+    {activeReplyId === (reviewData._id || reviewData.id) && (
+        <div className="reply-form-box">
+            <input 
+                type="text" 
+                placeholder="Write a reply..." 
+                value={replyText} 
+                onChange={(e) => setReplyText(e.target.value)}
+                className="reply-input-field"
+            />
+            <button 
+                onClick={() => handlePublishReply(reviewData._id || reviewData.id)}
+                disabled={!replyText.trim()}
+                className="reply-send-btn"
+            >
+                Send
+            </button>
+        </div>
+    )}
+</div>
+    </article>
+);
         })
     ) : (
         <p className="no-reviews">No reviews yet. Be the first to comment!</p>

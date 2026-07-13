@@ -103,7 +103,16 @@ export const HomeScreen = () => {
       >
 
         <div className="profile-mini-avatar">
-          {userData?.nombre?.charAt(0).toUpperCase()}
+          {userData?.imagen_url ? (
+      <img 
+        src={userData.imagen_url} 
+        alt={userData?.nombre} 
+        className="avatar-img-mini" 
+        /* style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }} */
+      />
+    ) : (
+      userData?.nombre?.charAt(0).toUpperCase()
+    )}
         </div>
 
 

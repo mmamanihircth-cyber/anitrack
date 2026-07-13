@@ -163,3 +163,42 @@ export async function addOrUpdateInList(anime_id, estado) {
     }
 
 }
+// 📤 Dar o quitar Like (Toggle) - REQUIERE AUTH
+export async function toggleLikeReview(review_id) {
+    try {
+        const token = getAuthToken();
+        const response_http = await fetch(`${API_URL}/review/${review_id}/like`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const data = await response_http.json();
+        if (!response_http.ok) throw new Error(data.message || "Error al procesar el like");
+        return data; // Devuelve { ok: true, message: "...", data: { likes: X } }
+    } catch (error) {
+        console.error("Error en toggleLikeReview:", error);
+        throw error;
+    }
+}
+
+// 📤 Enviar una respuesta a una Review - REQUIERE AUTH
+export async function addReplyToReview(review_id, texto) {
+    try {
+        const token = getAuthToken();
+        const response_http = await fetch(`${API_URL}/review/${review_id}/reply`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ texto })
+        });
+        const data = await response_http.json();
+        if (!response_http.ok) throw new Error(data.message || "Error al enviar la respuesta");
+        return data; // Devuelve { ok: true, message: "...", data: { respuestas: [...] } }
+    } catch (error) {
+        console.error("Error en addReplyToReview:", error);
+        throw error;
+    }
+}

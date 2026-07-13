@@ -3,11 +3,14 @@ import { Link, useNavigate } from 'react-router';
 import useForm from '../../hooks/useForm';
 import useRequest from '../../hooks/useRequest';
 import { register } from '../../services/authService'; 
+import { AVAILABLE_AVATARS } from '../../Data/avatars';
 import '../LoginScreen/LoginScreen.css'; 
 
 export const RegisterScreen = () => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
+    const [selectedAvatar, setSelectedAvatar] = useState(AVAILABLE_AVATARS[0].url);
+    const [isOpen, setIsOpen] = useState(false);
 
     const {
         sendRequest: sendRequestRegister,
@@ -25,8 +28,8 @@ export const RegisterScreen = () => {
 
     function onSubmit(formData) {
     sendRequestRegister(() =>
-        register(formData.name, formData.email, formData.password)
-    );
+        register(formData.name, formData.email, formData.password, selectedAvatar)
+        );
 }
 
     useEffect(() => {
@@ -36,6 +39,7 @@ export const RegisterScreen = () => {
     }, [registerResponse, navigate]);
 
     const { formState, handleChange, handleSubmit } = useForm(initial_form_state, onSubmit);
+    const currentAvatarObj = AVAILABLE_AVATARS.find(a => a.url === selectedAvatar) || AVAILABLE_AVATARS[0];
 
     return (
         <div className="login-page-container">
@@ -109,8 +113,55 @@ export const RegisterScreen = () => {
                         </div>
                     </div>
 
+                    <div className="avatar-form-group">
+    <label className="avatar-label">Choose Profile Character</label>
+    
+    {/* Botón del Selector */}
+    <div className="avatar-dropdown-btn" onClick={() => setIsOpen(!isOpen)}>
+        <div className="avatar-btn-left">
+            <img 
+                src={currentAvatarObj.url} 
+                alt={currentAvatarObj.name} 
+                className="avatar-current-img"
+            />
+            <span className="avatar-current-name">{currentAvatarObj.name}</span>
+        </div>
+        <span className={`avatar-arrow ${isOpen ? 'open' : ''}`}>
+            ▼
+        </span>
+    </div>
+
+    {/* Menú Desplegable Absoluto */}
+    {isOpen && (
+        <div className="avatar-dropdown-menu">
+            {AVAILABLE_AVATARS.map((avatar) => {
+                const isSelected = selectedAvatar === avatar.url;
+                return (
+                    <div 
+                        key={avatar.id}
+                        onClick={() => {
+                            setSelectedAvatar(avatar.url);
+                            setIsOpen(false);
+                        }}
+                        className={`avatar-option-item ${isSelected ? 'selected' : ''}`}
+                    >
+                        <img 
+                            src={avatar.url} 
+                            alt={avatar.name} 
+                            className="avatar-option-img"
+                        />
+                        <span className="avatar-option-name">
+                            {avatar.name}
+                        </span>
+                    </div>
+                );
+            })}
+        </div>
+    )}
+</div>
+
                     <button
-                        className="btn-primary"
+                        className="btn-register"
                         type="submit"
                         disabled={registerLoading || registerResponse?.ok}
                     >
