@@ -152,7 +152,7 @@ export const WorkspaceFeedScreen = () => {
                         gap: '8px'
                     }}
                 >
-                    ← Volver a Comunidades
+                    ← Comunidades
                 </button>
 
                 {loading ? (

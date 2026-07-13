@@ -20,6 +20,12 @@ workspaceRouter.post('/', workspaceController.create);
 
 workspaceRouter.get('/', workspaceController.getAllByUser);
 
+workspaceRouter.get(
+    '/:workspace_id', 
+    workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER, MEMBER_WORKSPACE_ROLES.ADMIN, MEMBER_WORKSPACE_ROLES.MEMBER]), 
+    workspaceController.getById
+);
+
 workspaceRouter.delete('/:workspace_id', workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER]), workspaceController.deleteById)
 
 workspaceRouter.put('/:workspace_id', workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER]), workspaceController.updateById)

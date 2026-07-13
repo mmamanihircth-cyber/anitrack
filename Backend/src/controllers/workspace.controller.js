@@ -166,6 +166,33 @@ class WorkspaceController {
         }
     }
 
+    // Dentro de tu clase WorkspaceController:
+
+async getById(req, res, next) {
+    try {
+        const { workspace_id } = req.params;
+        
+        // Buscamos el workspace usando tu repositorio
+        const workspace = await workspaceRepository.getById(workspace_id);
+        
+        if (!workspace) {
+            return res.status(404).json({
+                ok: false,
+                message: "Comunidad no encontrada"
+            });
+        }
+
+        return res.status(200).json({
+            ok: true,
+            status: 200,
+            data: {
+                workspace
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
+}
 }
 
 const workspaceController = new WorkspaceController();

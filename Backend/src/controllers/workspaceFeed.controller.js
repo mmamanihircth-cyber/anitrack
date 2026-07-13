@@ -60,13 +60,13 @@ class WorkspaceFeedController {
             const user_id = request.user.id;
 
             // 🚫 COMENTAMOS ESTO TEMPORALMENTE PARA COMPROBAR:
-            /*
+            
             const membership = await workspaceMemberRepository.getMemberByWorkspaceAndUserId(workspace_id, user_id);
             
             if (!membership || membership.estatus_invitacion !== MEMBER_INVITATION_STATUS.ACCEPTED) {
                 throw new ServerError("No puedes ver el contenido de esta comunidad porque no eres miembro activo", 403);
             }
-            */
+           
 
             // Traemos el feed directamente
             const feed = await interactionRepository.getByWorkspaceId(workspace_id);
