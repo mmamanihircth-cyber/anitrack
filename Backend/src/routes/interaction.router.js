@@ -53,13 +53,14 @@ interactionRouter.get('/favorite', (req, res, next) => {
     return interactionController.getMyFavorites(req, res, next);
 });
 
+// Obtener el feed de un Workspace específico
 interactionRouter.get('/workspace/:workspace_id', (req, res, next) => {
-    return workspaceFeedController.getFeedByWorkspace(req, res, next);
+    return workspacefeedcontroller.getFeedByWorkspace(req, res, next);
 });
 
 // Publicar un nuevo post en un Workspace específico
 interactionRouter.post('/workspace/:workspace_id', (req, res, next) => {
-    return workspaceFeedController.createPost(req, res, next);
+    return workspacefeedcontroller.createPost(req, res, next);
 });
 
 export default interactionRouter;
