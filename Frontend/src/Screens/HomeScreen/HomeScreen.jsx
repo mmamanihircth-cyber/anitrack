@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import { MIS_ANIMES } from '../../Data/animes'
 import './HomeScreen.css'
 import homeBanner from '../../Asent/home-banner.png'
+import { NotificationsDropdown } from '../../Components/NotificationsDropdown/NotificationsDropdown.jsx'
 // 🌟 Asegurate de que quede exactamente así:
 import { toggleFavorite, getFavorites } from "../../services/interaction.service";
 
@@ -102,6 +103,9 @@ export const HomeScreen = () => {
               >
                 Comunidades
               </button>
+              <div className="header-actions">
+        <NotificationsDropdown />
+        </div>
 
       <div 
         className="profile-link"
