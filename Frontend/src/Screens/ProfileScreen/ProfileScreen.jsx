@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
-import { getFavorites } from "../../services/interaction.service";
+import { getFavorites, getMyList } from "../../services/interaction.service";
 import { MIS_ANIMES } from "../../Data/animes.js"; 
 import "./ProfileScreen.css";
 
 const ProfileScreen = () => {
-
+    const [myList, setMyList] = useState([]);
     const navigate = useNavigate();
     const [favorites, setFavorites] = useState([]);
     const { userData, logout } = useContext(AuthContext);
@@ -20,6 +20,10 @@ const ProfileScreen = () => {
 
             setFavorites(response.data.favoritos);
 
+            const responseList = await getMyList();
+
+            setMyList(responseList.data);
+
         } catch (error) {
 
             console.error(error);
@@ -29,8 +33,18 @@ const ProfileScreen = () => {
     }
 
     loadFavorites();
-
+    
 }, []);
+
+    const watching = myList.filter(item => item.estado === "watching").length;
+
+    const completed = myList.filter(item => item.estado === "completed").length;
+
+    const plan = myList.filter(item => item.estado === "plan").length;
+
+    const paused = myList.filter(item => item.estado === "paused").length;
+
+    const dropped = myList.filter(item => item.estado === "dropped").length;
     return (
         <main className="profile-page">
 
@@ -65,18 +79,28 @@ const ProfileScreen = () => {
     </div>
 
     <div className="stat-card">
-        <h3>0</h3>
+        <h3>{watching}</h3>
         <span>Watching</span>
     </div>
 
     <div className="stat-card">
-        <h3>0</h3>
+        <h3>{completed}</h3>
         <span>Completados</span>
     </div>
 
     <div className="stat-card">
-        <h3>0</h3>
-        <span>Reviews</span>
+        <h3>{plan}</h3>
+        <span>Plan to Watch</span>
+    </div>
+
+    <div className="stat-card">
+        <h3>{paused}</h3>
+        <span>On Hold</span>
+    </div>
+
+    <div className="stat-card">
+        <h3>{dropped}</h3>
+        <span>Dropped</span>
     </div>
 
 </div>

@@ -197,6 +197,33 @@ async toggleLike(request, response) {
 
     }
 }
+async getMyList(request, response) {
+
+    try {
+
+        const usuario_id = request.user.id;
+
+        const lista = await UserList.find({
+            usuario_id
+        });
+
+        return response.status(200).json({
+            ok: true,
+            data: lista
+        });
+
+    } catch (error) {
+
+        console.error(error);
+
+        return response.status(500).json({
+            ok: false,
+            message: "Error al obtener la lista"
+        });
+
+    }
+
+}
     // 6. AGREGAR O QUITAR FAVORITO
 async toggleFavorite(request, response) {
     try {

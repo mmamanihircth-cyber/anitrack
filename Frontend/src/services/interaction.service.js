@@ -236,4 +236,36 @@ export const createWorkspacePost = async (workspaceId, contenido, token) => {
         console.error("Error en createWorkspacePost:", error);
         throw error;
     }
+
+export async function getMyList() {
+
+    try {
+
+        const token = getAuthToken();
+
+        const response_http = await fetch(`${API_URL}/list`, {
+
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+
+        });
+
+        const data = await response_http.json();
+
+        if (!response_http.ok || !data.ok) {
+            throw new Error(data.message || "Error al obtener la lista");
+        }
+
+        return data;
+
+    } catch (error) {
+
+        console.error(error);
+
+        throw error;
+
+    }
+
+}
 };
