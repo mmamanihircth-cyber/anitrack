@@ -48,41 +48,47 @@ class InteractionController {
     }
 }
     // 2. DAR O QUITAR LIKE (Toggle) + Crear Notificación
-    async toggleLike(request, response) {
-        try {
-            const usuario_id = request.user.id;
-            const { review_id } = request.params;
+async toggleLike(request, response) {
+    try {
+        const usuario_id = request.user.id;
+        const { review_id } = request.params;
 
-            const review = await Review.findById(review_id);
-            if (!review) throw new ServerError("No se encontró el comentario", 404);
+        const review = await Review.findById(review_id);
+        if (!review) throw new ServerError("No se encontró el comentario", 404);
 
-            // Si ya tenía dislike, se lo sacamos
-            review.dislikes = review.dislikes.filter(id => id.toString() !== usuario_id);
+        // Si ya tenía dislike, se lo sacamos
+        review.dislikes = review.dislikes.filter(id => id.toString() !== usuario_id);
 
-            // Si ya tenía like, se lo quitamos. Si no, lo agregamos.
-            const yaTieneLike = review.likes.includes(usuario_id);
-            if (yaTieneLike) {
-                review.likes = review.likes.filter(id => id.toString() !== usuario_id);
-            } else {
-                review.likes.push(usuario_id);
-                
-                // Creamos una notificación para el dueño del comentario (si no es él mismo)
-                if (review.usuario_id.toString() !== usuario_id) {
-                    await Notification.create({
-                        usuario_destino_id: review.usuario_id,
-                        tipo: 'like',
-                        mensaje: `¡A un usuario le gustó tu comentario!`
-                    });
-                }
+        // Si ya tenía like, se lo quitamos. Si no, lo agregamos.
+        const yaTieneLike = review.likes.includes(usuario_id);
+        if (yaTieneLike) {
+            review.likes = review.likes.filter(id => id.toString() !== usuario_id);
+        } else {
+            review.likes.push(usuario_id);
+            
+            // Creamos una notificación para el dueño del comentario (si no es él mismo)
+            if (review.usuario_id.toString() !== usuario_id) {
+                // Buscamos de forma segura el ID del anime para armar la URL
+                const animeId = review.anime_id || review.animeId || 'comentarios';
+
+                await Notification.create({
+                    usuario_destino_id: review.usuario_id,
+                    tipo: 'like',
+                    mensaje: `¡A un usuario le gustó tu comentario!`,
+                    leido: false,
+                    // Redirige al anime e impacta directo en el id del comentario
+                    redirection_url: `/anime/${animeId}#review-${review._id}`
+                });
             }
-
-            await review.save();
-            return response.status(200).json({ ok: true, message: yaTieneLike ? "Like removido" : "Like agregado", data: { likes: review.likes.length } });
-        } catch (error) {
-            console.error(error);
-            return response.status(500).json({ ok: false, message: "Error al procesar el like" });
         }
+
+        await review.save();
+        return response.status(200).json({ ok: true, message: yaTieneLike ? "Like removido" : "Like agregado", data: { likes: review.likes.length } });
+    } catch (error) {
+        console.error(error);
+        return response.status(500).json({ ok: false, message: "Error al procesar el like" });
     }
+}
 
     // 3. DAR O QUITAR DISLIKE (Toggle)
     async toggleDislike(request, response) {
@@ -127,10 +133,12 @@ class InteractionController {
 
             // Notificamos al creador de la reseña original
             if (review.usuario_id.toString() !== usuario_id) {
+                // 🟢 CORREGIDO: Mismos campos estandarizados para persistencia
                 await Notification.create({
-                    usuario_destino_id: review.usuario_id,
-                    tipo: 'respuesta',
-                    mensaje: `Un usuario respondió a tu comentario: "${texto.substring(0, 20)}..."`
+                    fk_user_id: review.usuario_id,
+                    tipo: 'REPLY',
+                    mensaje: `Un usuario respondió a tu comentario: "${texto.substring(0, 20)}..."`,
+                    leida: false
                 });
             }
 

@@ -18,11 +18,16 @@ export function NotificationsDropdown() {
     if (!token) return;
     try {
       setLoading(true);
-      const response = await fetch('https://anitrack-back.vercel.app/api/notification', {
+      const response = await fetch('http://localhost:8080/api/notifications', { // 👈 Tu backend local
+  headers: {
+    'Authorization': `Bearer ${token}`
+  }
+});
+      /* const response = await fetch('https://anitrack-back.vercel.app/api/notification', {
         headers: {
           'Authorization': `Bearer ${token}`
         }
-      });
+      }); */
       const result = await response.json();
       if (result.ok) {
         const list = result.data.notifications || result.data || [];
@@ -53,37 +58,37 @@ export function NotificationsDropdown() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  // 2. Marcar como leída y navegar al destino de la interacción
-  const handleNotificationClick = async (notif) => {
-    setIsOpen(false); // Cierra el menú al hacer clic
-    
-    try {
-      // Llamada al backend para marcar como leída
-      await fetch(`https://anitrack-back.vercel.app/api/notification/${notif._id}`, {
-        method: 'PUT',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      // Actualizar estado local inmediatamente
-      setNotifications(prev =>
-        prev.map(n => n._id === notif._id ? { ...n, leida: true } : n)
-      );
-
-      // Redirigir al destino (por ejemplo, al workspace correspondiente)
-      if (notif.redirection_url) {
-        navigate(notif.redirection_url);
-      } else if (notif.fk_workspace_id) {
-        navigate(`/workspace/${notif.fk_workspace_id}`);
+  // Dentro de NotificationsDropdown.jsx
+const handleNotificationClick = async (notif) => {
+  setIsOpen(false); 
+  console.log("NOTIFICACIÓN RECIBIDA EN CLICK:", notif);
+  try {
+    // 🟢 CORREGIDO: Agregamos "/read" al final de la URL para que coincida con tu router
+    await fetch(`http://localhost:8080/api/notifications/${notif._id}/read`, {
+      method: 'PUT',
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
-    } catch (err) {
-      console.error("Error al procesar la notificación:", err);
+    });
+
+    // Actualizar estado local inmediatamente
+    setNotifications(prev =>
+      prev.map(n => n._id === notif._id ? { ...n, leido: true } : n)
+    );
+
+    // Redirigir al destino (por ejemplo, al workspace correspondiente)
+    if (notif.redirection_url) {
+      navigate(notif.redirection_url);
+    } else if (notif.fk_workspace_id) {
+      navigate(`/workspace/${notif.fk_workspace_id}`);
     }
-  };
+  } catch (err) {
+    console.error("Error al procesar la notificación:", err);
+  }
+};
 
   const getIcon = (tipo) => {
-    switch (tipo) {
+    switch (tipo?.toUpperCase()) {
       case 'LIKE': return '❤️';
       case 'REPLY': return '💬';
       case 'COMMUNITY': return '🌍';
@@ -91,7 +96,7 @@ export function NotificationsDropdown() {
     }
   };
 
-  const unreadCount = notifications.filter(n => !n.leida).length;
+  const unreadCount = notifications.filter(n => !n.leido).length;
 
   return (
     <div className="notifications-dropdown-container" ref={dropdownRef}>
@@ -118,22 +123,23 @@ export function NotificationsDropdown() {
               <div className="notifications-scroll">
                 {notifications.map((notif) => (
                   <div
-                    key={notif._id}
-                    className={`dropdown-item ${notif.leida ? 'read' : 'unread'}`}
-                    onClick={() => handleNotificationClick(notif)}
-                  >
-                    <span className="item-icon">{getIcon(notif.tipo)}</span>
-                    <div className="item-content">
-                      <p className="item-message">{notif.mensaje}</p>
-                      <span className="item-time">
-                        {new Date(notif.fecha_creacion || notif.createdAt).toLocaleDateString(undefined, {
-                          hour: '2-digit',
-                          minute: '2-digit'
-                        })}
-                      </span>
-                    </div>
-                    {!notif.leida && <span className="item-unread-dot" />}
-                  </div>
+  key={notif._id}
+  className={`dropdown-item ${notif.leido ? 'read' : 'unread'}`}
+  onClick={() => handleNotificationClick(notif)}
+>
+  <span className="item-icon">{getIcon(notif.tipo)}</span>
+  <div className="item-content">
+    <p className="item-message">{notif.mensaje}</p>
+    <span className="item-time">
+      {/* 🟢 CORREGIDO: Usamos "notif.fecha" que es el campo real de tu MongoDB */}
+      {new Date(notif.fecha).toLocaleDateString(undefined, {
+        hour: '2-digit',
+        minute: '2-digit'
+      })}
+    </span>
+  </div>
+  {!notif.leido && <span className="item-unread-dot" />}
+</div>
                 ))}
               </div>
             )}

@@ -86,70 +86,49 @@ class AuthController {
     }
 
     async verifyEmail(req, res) {
-        try {
-            const { verification_token } = req.query;
+    try {
+        const { verification_token } = req.query;
 
-            if (!verification_token) {
-                throw new ServerError("Falta token de verificación", 400);
-            }
-            const payload = jwt.verify(verification_token, ENVIRONMENT.JWT_SECRET)
-            const {email} = payload
-            const user = await userRepository.getByEmail(email);
+        if (!verification_token) {
 
-            if (!user) {
-                throw new ServerError("Usuario no encontrado", 404);
-            }
-
-            if (user.email_verificado) {
-                throw new ServerError("Este email ya ha sido verificado", 400);
-            }
-
-            await userRepository.updateById(user._id, { email_verificado: true });
-
-            return res.status(200).json({
-                ok: true,
-                status: 200,
-                message: "Email verificado correctamente. ¡Ya puedes usar tu cuenta!"
-            });
-
+            return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?error=missing_token`);
         }
-        catch (error) {
-            console.log(error)
-            if( 
-                error instanceof jwt.JsonWebTokenError 
-                || 
-                error instanceof jwt.NotBeforeError 
-                || 
-                error instanceof jwt.TokenExpiredError 
-            ){
-                return res.status(401).json(
-                    {
-                        message: "Token invalido",
-                        ok: false,
-                        status: 401
-                    }
-                )
-            }
-            else if (error instanceof ServerError) {
-                return res.status(error.status).json(
-                    {
-                        message: error.message,
-                        ok: false,
-                        status: error.status
-                    }
-                )
-            }
-            else {
-                console.error('Error critico:', error);
-                return res.status(500).json({
-                    message: "Error interno del servidor",
-                    ok: false,
-                    status: 500
-                });
-            }
+        
+        const payload = jwt.verify(verification_token, ENVIRONMENT.JWT_SECRET);
+        const { email } = payload;
+        const user = await userRepository.getByEmail(email);
 
+        if (!user) {
+            return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?error=user_not_found`);
         }
+
+        if (user.email_verificado) {
+            return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?error=already_verified`);
+        }
+
+        await userRepository.updateById(user._id, { email_verificado: true });
+
+        return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?verified=true`);
+
     }
+    catch (error) {
+        console.log(error);
+        if (
+            error instanceof jwt.JsonWebTokenError 
+            || 
+            error instanceof jwt.NotBeforeError 
+            || 
+            error instanceof jwt.TokenExpiredError 
+        ) {
+            return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?error=invalid_token`);
+        }
+        if (error instanceof ServerError) {
+            return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?error=${encodeURIComponent(error.message)}`);
+        }
+        console.error('Error critico:', error);
+        return res.redirect(`${ENVIRONMENT.URL_FRONTEND}/login?error=server_error`);
+    }
+}
 
     async login(request, response){
         try{

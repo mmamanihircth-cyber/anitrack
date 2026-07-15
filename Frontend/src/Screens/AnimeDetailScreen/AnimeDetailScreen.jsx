@@ -1,11 +1,14 @@
 import React, { useContext, useEffect, useState, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router'
+import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext'
 import { MIS_ANIMES } from '../../Data/animes'
 import { toggleFavorite, getFavorites, addOrUpdateInList, getReviewsByAnime, createReview, toggleLikeReview, addReplyToReview } from "../../services/interaction.service";
 import './AnimeDetailScreen.css'
 
 export const AnimeDetailScreen = () => {
+
+    const { hash } = useLocation();
 
     const { user } = useContext(AuthContext);
     const { id } = useParams()
@@ -44,6 +47,29 @@ export const AnimeDetailScreen = () => {
     const [replyText, setReplyText] = useState("");
 
     const [reviewText, setReviewText] = useState("");
+
+    useEffect(() => {
+  if (hash) {
+    // Le damos un mini delay de 400ms para asegurar que React haya terminado de pintar los comentarios
+    const timer = setTimeout(() => {
+      const targetId = hash.replace('#', '');
+      const element = document.getElementById(targetId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        
+        // 🌟 Opcional: Le agregamos una clase CSS para resaltar el comentario seleccionado
+        element.classList.add('highlight-comment');
+        
+        // Se la quitamos a los 2 segundos para que no quede permanente
+        setTimeout(() => {
+          element.classList.remove('highlight-comment');
+        }, 2000);
+      }
+    }, 400);
+
+    return () => clearTimeout(timer);
+  }
+}, [hash, reviews]);
 
     useEffect(() => {
     if (!isLogged || !anime?.id) return;
@@ -933,7 +959,9 @@ const handlePublishReply = async (reviewId) => {
                 : new Date().toLocaleDateString();
 
             return (
-    <article key={reviewData._id || reviewData.id} className="review-card">
+    <article key={reviewData._id || reviewData.id} 
+    id={`review-${reviewData._id || reviewData.id}`} 
+    className="review-card">
         <div className="review-header">
             <div className="review-user">
                 <div className="review-avatar">
