@@ -204,7 +204,7 @@ export async function addReplyToReview(review_id, texto) {
 }
 
 // Obtener todo el feed de debates de una comunidad (Workspace)
-export const getWorkspaceFeed = async (workspaceId, token) => {
+export async function getWorkspaceFeed(workspaceId, token) {
     try {
         const response = await fetch(`https://anitrack-back.vercel.app/api/interactions/workspace/${workspaceId}`, {
             method: "GET",
@@ -221,7 +221,7 @@ export const getWorkspaceFeed = async (workspaceId, token) => {
 };
 
 // Publicar un nuevo post en la comunidad
-export const createWorkspacePost = async (workspaceId, contenido, token) => {
+export async function createWorkspacePost(workspaceId, contenido, token) {
     try {
         const response = await fetch(`https://anitrack-back.vercel.app/api/interactions/workspace/${workspaceId}`, {
             method: "POST",
@@ -236,36 +236,23 @@ export const createWorkspacePost = async (workspaceId, contenido, token) => {
         console.error("Error en createWorkspacePost:", error);
         throw error;
     }
+};
 
 export async function getMyList() {
-
     try {
-
         const token = getAuthToken();
-
         const response_http = await fetch(`${API_URL}/list`, {
-
             headers: {
                 Authorization: `Bearer ${token}`
             }
-
         });
-
         const data = await response_http.json();
-
         if (!response_http.ok || !data.ok) {
             throw new Error(data.message || "Error al obtener la lista");
         }
-
         return data;
-
     } catch (error) {
-
-        console.error(error);
-
+        console.error("Error en getMyList:", error);
         throw error;
-
     }
-
 }
-};

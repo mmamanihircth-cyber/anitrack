@@ -48,8 +48,6 @@ export const AnimeDetailScreen = () => {
 
     const [reviewText, setReviewText] = useState("");
 
-        import { getMyList } from "../../services/interaction.service";
-
 useEffect(() => {
 
     if (!isLogged || !anime?.id) return;
@@ -58,11 +56,19 @@ useEffect(() => {
 
         try {
 
-            console.log("Consultando mi lista...");
-
             const response = await getMyList();
 
-            console.log("Respuesta:", response);
+            console.log("GET /list:", response);
+
+            const item = response.data.find(
+                item => item.anime_id === anime.id
+            );
+
+            console.log("ITEM ENCONTRADO:", item);
+
+            if (item) {
+                setUserStatus(item.estado);
+            }
 
         } catch (error) {
 
@@ -312,10 +318,6 @@ const handlePublishReply = async (reviewId) => {
             );
             setReplyText(""); // Limpiamos el input de respuesta
             setActiveReplyId(null); // Cerramos el formulario de respuesta
-            
-            // 🌟 TIP CLAVE: Volvemos a pedir los comentarios para que el populate del nuevo usuario se aplique
-            // Si tenés una función como getReviews(), llamala acá abajo para asegurar el render de los nombres
-            // if (typeof getReviews === "function") getReviews();
         }
     } catch (error) {
         alert(error.message);

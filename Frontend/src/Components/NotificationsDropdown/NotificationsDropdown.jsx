@@ -64,7 +64,7 @@ const handleNotificationClick = async (notif) => {
   console.log("NOTIFICACIÓN RECIBIDA EN CLICK:", notif);
   try {
     // 🟢 CORREGIDO: Agregamos "/read" al final de la URL para que coincida con tu router
-    await fetch(`http://localhost:8080/api/notifications/${notif._id}/read`, {
+    await fetch(`https://anitrack-back.vercel.app/api/notifications/${notif._id}/read`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${token}`
