@@ -18,7 +18,7 @@ export function NotificationsDropdown() {
     if (!token) return;
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:8080/api/notifications', { // 👈 Tu backend local
+      const response = await fetch('https://anitrack-back.vercel.app/api/notifications', { // 👈 Tu backend local
   headers: {
     'Authorization': `Bearer ${token}`
   }
