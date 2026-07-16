@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router'
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext'
 import { MIS_ANIMES } from '../../Data/animes'
-import { toggleFavorite, getFavorites, addOrUpdateInList, getReviewsByAnime, createReview, toggleLikeReview, addReplyToReview } from "../../services/interaction.service";
+import { toggleFavorite, getMyList, getFavorites, addOrUpdateInList, getReviewsByAnime, createReview, toggleLikeReview, addReplyToReview } from "../../services/interaction.service";
 import './AnimeDetailScreen.css'
 
 export const AnimeDetailScreen = () => {
@@ -28,7 +28,7 @@ export const AnimeDetailScreen = () => {
 
     const staffRef = useRef(null);
 
-    const [userStatus, setUserStatus] = useState("Watching");
+    const [userStatus, setUserStatus] = useState("watching");
 
     const [userScore, setUserScore] = useState(9);
 
@@ -47,6 +47,34 @@ export const AnimeDetailScreen = () => {
     const [replyText, setReplyText] = useState("");
 
     const [reviewText, setReviewText] = useState("");
+
+        import { getMyList } from "../../services/interaction.service";
+
+useEffect(() => {
+
+    if (!isLogged || !anime?.id) return;
+
+    async function loadUserStatus() {
+
+        try {
+
+            console.log("Consultando mi lista...");
+
+            const response = await getMyList();
+
+            console.log("Respuesta:", response);
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+
+    }
+
+    loadUserStatus();
+
+}, [anime.id, isLogged]);
 
     useEffect(() => {
   if (hash) {
