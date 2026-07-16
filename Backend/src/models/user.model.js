@@ -29,6 +29,11 @@ const userSchema = new mongoose.Schema(
             type: Boolean,
             required: true,
             default: true
+        },
+        imagen_url: {
+        type: String,
+        required: false,
+        default: ""
         }
     }
 )

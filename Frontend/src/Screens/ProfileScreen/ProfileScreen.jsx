@@ -3,6 +3,8 @@ import { AuthContext } from "../../context/AuthContext";
 import { useNavigate } from "react-router";
 import { getFavorites, getMyList } from "../../services/interaction.service";
 import { MIS_ANIMES } from "../../Data/animes.js"; 
+import AvatarSelector from "../../Components/AvatarSelector/AvatarSelector.jsx";
+import { updateProfile } from "../../services/authService.js";
 import "./ProfileScreen.css";
 
 const ProfileScreen = () => {
@@ -10,41 +12,62 @@ const ProfileScreen = () => {
     const navigate = useNavigate();
     const [favorites, setFavorites] = useState([]);
     const { userData, logout } = useContext(AuthContext);
+    const [selectedAvatar, setSelectedAvatar] = useState("");
+    const [editingProfile, setEditingProfile] = useState(false);
+
     useEffect(() => {
+        async function loadFavorites() {
+            try {
+                const response = await getFavorites();
+                setFavorites(response.data.favoritos || []);
 
-    async function loadFavorites() {
+                const responseList = await getMyList();
+                setMyList(responseList.data?.miLista || []);
 
-        try {
-
-            const response = await getFavorites();
-
-            setFavorites(response.data.favoritos);
-
-            const responseList = await getMyList();
-
-            setMyList(responseList.data);
-
-        } catch (error) {
-
-            console.error(error);
-
+            } catch (error) {
+                console.error("Error al cargar favoritos y lista en Profile:", error);
+            }
         }
+
+        loadFavorites();
+    }, []);
+
+    useEffect(() => {
+    // 🟢 Cambiamos a userData.imagen_url y sumamos una validación para evitar el string vacío
+    if (userData && userData.imagen_url && userData.imagen_url.trim() !== "") {
+        setSelectedAvatar(userData.imagen_url);
+    } else if (userData) {
+        // Fallback: Si el usuario existe pero no tiene foto, le asignamos la primera por defecto
+        setSelectedAvatar("/Avatars/avatar4.png"); 
+        // 💡 NOTA: Podés importar AVAILABLE_AVATARS[0].url y ponerlo acá como hicimos antes
+    }
+}, [userData]);
+
+    const isListValid = Array.isArray(myList);
+    const watching = myList.filter(item => item.estado === "watching").length;
+    const completed = myList.filter(item => item.estado === "completed").length;
+    const plan = myList.filter(item => item.estado === "plan").length;
+    const paused = myList.filter(item => item.estado === "paused").length;
+    const dropped = myList.filter(item => item.estado === "dropped").length;
+
+    const handleSaveProfile = async () => {
+
+    try{
+
+        await updateProfile(selectedAvatar);
+
+        setEditingProfile(false);
 
     }
 
-    loadFavorites();
-    
-}, []);
+    catch(error){
 
-    const watching = myList.filter(item => item.estado === "watching").length;
+        console.error(error);
 
-    const completed = myList.filter(item => item.estado === "completed").length;
+    }
 
-    const plan = myList.filter(item => item.estado === "plan").length;
+}
 
-    const paused = myList.filter(item => item.estado === "paused").length;
-
-    const dropped = myList.filter(item => item.estado === "dropped").length;
     return (
         <main className="profile-page">
 
@@ -65,11 +88,55 @@ const ProfileScreen = () => {
 
                 <div className="profile-user">
 
-                    <h2>{userData?.nombre}</h2>
+    <div className="profile-user-top">
 
-                    <p>{userData?.email}</p>
+        <img
+    src={selectedAvatar && selectedAvatar.trim() !== "" ? selectedAvatar : "/Avatars/avatar4.png"}
+    alt={userData?.nombre || "Usuario"}
+    className="profile-avatar"
+/>
 
-                </div>
+        <div>
+
+            <h2>{userData?.nombre}</h2>
+
+            <p>{userData?.email}</p>
+
+        </div>
+
+    </div>
+
+    <button
+        className="edit-profile-btn"
+        onClick={() => setEditingProfile(!editingProfile)}
+    >
+        {editingProfile ? "Cancelar" : "Editar Perfil"}
+    </button>
+
+</div>
+
+{
+editingProfile && (
+
+<div className="profile-edit-card">
+
+    <h3>Cambiar personaje</h3>
+
+    <AvatarSelector
+        selectedAvatar={selectedAvatar}
+        onChange={setSelectedAvatar}
+    />
+
+    <button
+    className="save-profile-btn"
+    onClick={handleSaveProfile}>
+    Guardar Cambios
+    </button>
+
+</div>
+
+)
+}
 
                 <div className="profile-stats">
 

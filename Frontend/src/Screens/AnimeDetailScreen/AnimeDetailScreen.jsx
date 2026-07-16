@@ -49,18 +49,17 @@ export const AnimeDetailScreen = () => {
     const [reviewText, setReviewText] = useState("");
 
 useEffect(() => {
-
     if (!isLogged || !anime?.id) return;
 
     async function loadUserStatus() {
-
         try {
-
             const response = await getMyList();
-
             console.log("GET /list:", response);
 
-            const item = response.data.find(
+            // 🟢 Accedemos de forma segura a miLista dentro de response.data
+            const listaUser = response?.data?.miLista || [];
+
+            const item = listaUser.find(
                 item => item.anime_id === anime.id
             );
 
@@ -69,17 +68,12 @@ useEffect(() => {
             if (item) {
                 setUserStatus(item.estado);
             }
-
         } catch (error) {
-
-            console.error(error);
-
+            console.error("Error al cargar el estado del usuario en AnimeDetail:", error);
         }
-
     }
 
     loadUserStatus();
-
 }, [anime.id, isLogged]);
 
     useEffect(() => {

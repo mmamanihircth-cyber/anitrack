@@ -1,0 +1,159 @@
+.avatar-selector{
+
+    position:relative;
+
+    width:100%;
+
+}
+
+.avatar-selector-label{
+
+    display:block;
+
+    color:white;
+
+    margin-bottom:10px;
+
+    font-weight:600;
+
+}
+
+.avatar-selector-btn{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    background:#18233c;
+
+    border:1px solid rgba(91,136,255,.2);
+
+    border-radius:14px;
+
+    padding:14px 18px;
+
+    cursor:pointer;
+
+    transition:.25s;
+
+}
+
+.avatar-selector-btn:hover{
+
+    border-color:#5b88ff;
+
+}
+
+.avatar-selector-current{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+}
+
+.avatar-selector-current img{
+
+    width:52px;
+
+    height:52px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.avatar-selector-current span{
+
+    color:white;
+
+    font-weight:600;
+
+}
+
+.avatar-selector-arrow{
+
+    color:#9eb6ff;
+
+    transition:.25s;
+
+}
+
+.avatar-selector-arrow.open{
+
+    transform:rotate(180deg);
+
+}
+
+.avatar-selector-menu{
+
+    position:absolute;
+
+    width:100%;
+
+    margin-top:10px;
+
+    background:#18233c;
+
+    border-radius:14px;
+
+    overflow:hidden;
+
+    border:1px solid rgba(91,136,255,.2);
+
+    z-index:50;
+
+}
+
+.avatar-selector-item{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    padding:14px 18px;
+
+    cursor:pointer;
+
+    transition:.2s;
+
+}
+
+.avatar-selector-item:hover{
+
+    background:#23355d;
+
+}
+
+.avatar-selector-item.selected{
+
+    background:#2c467b;
+
+}
+
+.avatar-selector-item img{
+
+    width:46px;
+
+    height:46px;
+
+    border-radius:50%;
+
+    object-fit:cover;
+
+}
+
+.avatar-selector-item span{
+
+    color:white;
+
+    font-weight:500;
+
+}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
+import './CommunitiesScreen.css'
 
 export function CommunitiesScreen() {
   const [activeTab, setActiveTab] = useState('my-communities'); // 'my-communities' | 'explore' | 'create'
@@ -109,13 +110,31 @@ export function CommunitiesScreen() {
 
   return (
     <div className="communities-container">
-      <header className="communities-header">
-        <button className="btn-back-home" onClick={() => navigate('/home')}>
-          ← Home
-        </button>
+      <section className="communities-hero">
+
+    <button
+        className="btn-back-home"
+        onClick={() => navigate("/home")}
+    >
+        ← Home
+    </button>
+
+    <div className="hero-overlay">
+
+        <span className="hero-badge">
+            🌎 Anime Social
+        </span>
+
         <h1>Comunidades de Anime</h1>
-        <p>Encuentra tu rincón ideal para debatir sobre tus animes favoritos</p>
-      </header>
+
+        <p>
+            Encuentra personas con tus mismos gustos,
+            comparte teorías y crea nuevas amistades.
+        </p>
+
+    </div>
+
+</section>
 
       {/* 🟢 BARRA DE PESTAÑAS (TABS) */}
       <nav className="communities-tabs">
@@ -161,9 +180,10 @@ export function CommunitiesScreen() {
                     onClick={() => navigate(`/workspace/${ws.workspace_id}`)}
                   >
                     <div className="card-badge">Miembro</div>
+                    <div className="community-icon">💬</div>
                     <h3>{ws.workspace_nombre}</h3>
                     <p>{ws.workspace_descripcion || 'Sin descripción.'}</p>
-                    <span className="enter-portal">Entrar al portal →</span>
+                    <button className="enter-btn">Entrar al Portal →</button>
                   </div>
                 ))}
               </div>
@@ -206,34 +226,71 @@ export function CommunitiesScreen() {
         {/* PESTAÑA: CREAR COMUNIDAD */}
         {activeTab === 'create' && (
           <div className="tab-pane creation-pane">
-            <h2>Funda una nueva Comunidad de Anime</h2>
-            <form onSubmit={handleCreateWorkspace} className="create-community-form">
-              <div className="form-group">
+
+    <div className="create-community-card">
+
+        <div className="create-header">
+
+            <span className="create-icon">🏰</span>
+
+            <h2>Crear Nueva Comunidad</h2>
+
+            <p>
+                Reúne fans de tu anime favorito, comparte teorías,
+                noticias y debates con otros miembros.
+            </p>
+
+        </div>
+
+        <form
+            onSubmit={handleCreateWorkspace}
+            className="create-community-form"
+        >
+
+            <div className="form-group">
+
                 <label>Nombre de la Comunidad</label>
-                <input 
-                  type="text" 
-                  name="nombre"
-                  placeholder="Ej: Comunidad de Shingeki no Kyojin"
-                  value={formData.nombre}
-                  onChange={handleInputChange}
-                  required
+
+                <input
+                    type="text"
+                    name="nombre"
+                    placeholder="Ej: Comunidad de Shingeki no Kyojin"
+                    value={formData.nombre}
+                    onChange={handleInputChange}
+                    required
                 />
-              </div>
-              <div className="form-group">
+
+            </div>
+
+            <div className="form-group">
+
                 <label>Descripción</label>
-                <textarea 
-                  name="descripcion"
-                  placeholder="De qué se va a hablar acá? Teorías del manga, fanarts, discusiones del anime..."
-                  value={formData.descripcion}
-                  onChange={handleInputChange}
-                  rows={4}
+
+                <textarea
+                    name="descripcion"
+                    placeholder="¿Qué se hablará aquí?"
+                    value={formData.descripcion}
+                    onChange={handleInputChange}
+                    rows={5}
                 />
-              </div>
-              <button type="submit" disabled={creating} className="btn-submit-create">
-                {creating ? 'Fundando Comunidad...' : 'Crear Comunidad'}
-              </button>
-            </form>
-          </div>
+
+            </div>
+
+            <button
+                type="submit"
+                disabled={creating}
+                className="btn-submit-create"
+            >
+                {creating
+                    ? "Creando Comunidad..."
+                    : "🚀 Crear Comunidad"}
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
         )}
 
       </main>

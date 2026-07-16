@@ -8,7 +8,7 @@ import jwt from 'jsonwebtoken'
 class AuthController {
     async register(req, res) {
         try {
-            const { name, email, password } = req.body;
+            const { name, email, password, imagen_url } = req.body;
 
             // Validaciones
             if (!name || name.length <= 2) {
@@ -30,7 +30,7 @@ class AuthController {
 
             const hashed_password = await bcrypt.hash(password, 12);
 
-            const newUser = await userRepository.create(name, email, hashed_password);
+            const newUser = await userRepository.create(name, email, hashed_password, imagen_url);
 
             const verification_token = jwt.sign(
                 {
@@ -59,7 +59,8 @@ class AuthController {
                     user: {
                         id: newUser._id,
                         name: newUser.nombre,
-                        email: newUser.email
+                        email: newUser.email,
+                        imagen_url: newUser.imagen_url
                     }
                 }
             });
@@ -163,7 +164,8 @@ class AuthController {
                 nombre: user_found.nombre,
                 email: user_found.email,
                 id: user_found._id,
-                fecha_creacion: user_found.fecha_creacion
+                fecha_creacion: user_found.fecha_creacion,
+                imagen_url: user_found.imagen_url
             }
 
             //Aca creamos el token
@@ -351,7 +353,8 @@ class AuthController {
                 id: user.id,
                 email: user.email,
                 nombre: user.nombre,
-                fecha_creacion: user.fecha_creacion
+                fecha_creacion: user.fecha_creacion,
+                imagen_url: user.imagen_url
             }
         });
     } catch (error) {
@@ -361,24 +364,45 @@ class AuthController {
         });
     }
 }
+async updateProfile(req, res) {
+    try {
+        const { imagen_url } = req.body;
+        const user = req.user; // Si tu authMiddleware inyecta el usuario decodificado en req.user
+
+        if (!imagen_url) {
+            throw new ServerError("La URL de la imagen es obligatoria", 400);
+        }
+
+        // Actualizamos en la base de datos usando tu repositorio
+        const updatedUser = await userRepository.updateById(user.id || user._id, { imagen_url });
+
+        return res.status(200).json({
+            ok: true,
+            status: 200,
+            message: "Perfil actualizado con éxito",
+            data: {
+                imagen_url: updatedUser.imagen_url
+            }
+        });
+    } catch (error) {
+        if (error instanceof ServerError) {
+            return res.status(error.status).json({
+                message: error.message,
+                ok: false,
+                status: error.status
+            });
+        }
+        console.error("Error en updateProfile controller:", error);
+        return res.status(500).json({
+            message: "Error interno del servidor",
+            ok: false,
+            status: 500
+        });
+    }
+}
 }
 
 const authController = new AuthController();
 
 
 export default authController
-
-
-/* 
-
-Como manejar un inicio de sesion?
-
-Vamos a tener un endpoint 
-POST /api/auth/login
-    body: {email, password}
-
-    - Buscar al usuario por email
-    - Validar la contraseña (await bcrypt.compare(texto_original, texto_hasheado) esto devolvera un booleano)
-    - Crear un jsonwebtoken con los datos de sesion del usuario (username, email, id, created_at)
-    - responder con ese token (access_token) al cliente
-*/

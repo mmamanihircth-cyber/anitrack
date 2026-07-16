@@ -34,7 +34,7 @@ export async function register(name, email, password, imagen_url) { // 🌟 Agre
                 'Content-Type': 'application/json'
             },
             // 🌟 Mandamos 'imagen_url' adentro del JSON que recibe tu backend
-            body: JSON.stringify({ name, email, password, imagen_url }) 
+            body: JSON.stringify({ name, email, password, imagen_url: imagen_url }) 
         });
 
         const data = await response_http.json();
@@ -68,4 +68,55 @@ export async function updateUserAvatar(imagen_url) {
         console.error("Error en updateUserAvatar:", error);
         throw error;
     }
+}
+
+export async function updateProfile(imagen_url) {
+
+    try {
+
+        const token = localStorage.getItem("auth_token");
+
+        const response_http = await fetch(
+            "https://anitrack-back.vercel.app/api/auth/profile",
+            {
+
+                method: "PUT",
+
+                headers: {
+
+                    "Content-Type": "application/json",
+
+                    Authorization: `Bearer ${token}`
+
+                },
+
+                body: JSON.stringify({
+
+                    imagen_url
+
+                })
+
+            }
+        );
+
+        const data = await response_http.json();
+
+        if(!response_http.ok){
+
+            throw new Error(data.message);
+
+        }
+
+        return data;
+
+    }
+
+    catch(error){
+
+        console.error(error);
+
+        throw error;
+
+    }
+
 }

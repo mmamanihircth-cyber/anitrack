@@ -30,10 +30,16 @@ authRouter.post(
 )
 
 authRouter.get(
-    '/profile',
-    authMiddleware, 
-    authController.profile 
-)
+    "/profile",
+    authMiddleware,
+    authController.profile
+);
+
+authRouter.put(
+    "/profile",
+    authMiddleware,
+    authController.updateProfile
+);
 
 
 export default authRouter

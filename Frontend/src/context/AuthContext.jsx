@@ -27,7 +27,8 @@ export const AuthContextProvider = ({children}) => {
         email: payload.email,
         fecha_creacion: payload.fecha_creacion,
         id: payload.id,
-        nombre: payload.nombre
+        nombre: payload.nombre,
+        imagen_url: payload.imagen_url
     });
 
     setIsLogged(true);
@@ -44,9 +45,10 @@ export const AuthContextProvider = ({children}) => {
             const payload = jwtDecode(auth_token)
             setUserData({
                 email: payload.email,
-                fecha_creacion: payload.fecha_creacion,
-                id: payload.id,
-                nombre: payload.nombre
+            fecha_creacion: payload.fecha_creacion,
+            id: payload.id,
+            nombre: payload.nombre,
+            imagen_url: payload.imagen_url
             })
         }
     }

@@ -1,0 +1,187 @@
+.workspace-page{
+
+    max-width:900px;
+    margin:auto;
+
+    padding:40px 0 80px;
+
+}
+
+.workspace-header{
+
+    background:#121826;
+
+    border:1px solid rgba(255,255,255,.05);
+
+    border-radius:22px;
+
+    padding:45px;
+
+    display:flex;
+
+    gap:30px;
+
+    align-items:center;
+
+    margin-bottom:35px;
+
+}
+.workspace-header-content{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.workspace-icon{
+
+    width:90px;
+
+    height:90px;
+
+    border-radius:22px;
+
+    background:linear-gradient(135deg,#4d8dff,#285eff);
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-size:42px;
+
+}
+
+
+.create-post-card{
+
+    background:#1a2030;
+
+    padding:30px;
+
+    border-radius:20px;
+
+    margin-bottom:35px;
+
+    border:1px solid rgba(255,255,255,.05);
+
+}
+
+.create-post-card textarea{
+
+    width:100%;
+
+    background:#0d1220;
+
+    color:white;
+
+    border:none;
+
+    border-radius:14px;
+
+    padding:18px;
+
+    min-height:120px;
+
+    margin:18px 0;
+
+    resize:none;
+
+}
+
+.btn-post{
+
+    background:#4d8dff;
+
+    color:white;
+
+    border:none;
+
+    padding:14px 30px;
+
+    border-radius:12px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+}
+
+.btn-post:hover{
+
+    background:#3c76ee;
+
+}
+
+.feed-container{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:22px;
+
+}
+
+.post-card{
+
+    background:#1a2030;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    border:1px solid rgba(255,255,255,.05);
+
+    transition:.25s;
+
+}
+
+.post-card:hover{
+
+    transform:translateY(-3px);
+
+    border-color:#3d7dff55;
+
+}
+
+.post-header{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:15px;
+
+    margin-bottom:18px;
+
+}
+
+.post-avatar{
+
+    width:48px;
+
+    height:48px;
+
+    border-radius:50%;
+
+    background:#4d8dff;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    font-weight:bold;
+
+    color:white;
+
+}
+
+.post-content{
+
+    color:#d3d9e7;
+
+    line-height:1.7;
+
+}

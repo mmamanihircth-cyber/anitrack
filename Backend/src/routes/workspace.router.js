@@ -7,33 +7,41 @@ import { MEMBER_WORKSPACE_ROLES } from '../constants/memberRoles.constant.js';
 import memberWorkspaceController from '../controllers/memberWorkspace.controller.js';
 
 const workspaceRouter = express.Router();
-//Lo pongo arriba ya que no quiero que este alcanzado por el auth middleware
+// 1. Traer todos los workspaces (pestaña Explorar)
+// Colocada al principio para evitar conflictos de casteo con :workspace_id
+workspaceRouter.get('/all', workspaceController.getAllPublic); 
+
+// 2. Procesar invitaciones de miembros
 workspaceRouter.get(
     '/:workspace_id/members/:decision',
     memberWorkspaceController.processInvitation
 );
-workspaceRouter.get('/all', workspaceController.getAllPublic); // Sin filtrar por usuario
 
-//configuramos el auth a nivel de ruta(valida el id del cliente)
+// ==========================================
+// 🔒 RUTAS PRIVADAS (Requieren estar Autenticado)
+// ==========================================
 workspaceRouter.use(authMiddleware);
 
+// Crear un nuevo workspace
 workspaceRouter.post('/', workspaceController.create);
 
+// Obtener los workspaces del propio usuario
 workspaceRouter.get('/', workspaceController.getAllByUser);
 
+// Obtener un workspace por ID (Requiere validar rol de membresía)
 workspaceRouter.get(
     '/:workspace_id', 
     workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER, MEMBER_WORKSPACE_ROLES.ADMIN, MEMBER_WORKSPACE_ROLES.MEMBER]), 
     workspaceController.getById
 );
 
-workspaceRouter.delete('/:workspace_id', workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER]), workspaceController.deleteById)
+// Eliminar un workspace (Solo Owner)
+workspaceRouter.delete('/:workspace_id', workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER]), workspaceController.deleteById);
 
-workspaceRouter.put('/:workspace_id', workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER]), workspaceController.updateById)
+// Editar un workspace (Solo Owner)
+workspaceRouter.put('/:workspace_id', workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER]), workspaceController.updateById);
 
-workspaceRouter.post('/:workspace_id/members', authMiddleware, workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER, MEMBER_WORKSPACE_ROLES.ADMIN]),
-    memberWorkspaceController.inviteUser);
-
-
+// Invitar a un miembro (Owner o Admin)
+workspaceRouter.post('/:workspace_id/members', workspaceMiddleware([MEMBER_WORKSPACE_ROLES.OWNER, MEMBER_WORKSPACE_ROLES.ADMIN]), memberWorkspaceController.inviteUser);
 
 export default workspaceRouter;

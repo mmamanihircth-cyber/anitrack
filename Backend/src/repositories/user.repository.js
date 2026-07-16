@@ -9,11 +9,12 @@ class UserRepository {
         return await User.findById(user_id)
     }
 
-    async create (nombre, email, password){
+    async create (nombre, email, password, imagen_url){
         return await User.create({
             nombre, 
             email, 
-            password
+            password,
+            imagen_url: imagen_url
         })
     }
 
