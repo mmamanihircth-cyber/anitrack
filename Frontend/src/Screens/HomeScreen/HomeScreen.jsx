@@ -174,13 +174,30 @@ const topPopular = MIS_ANIMES.filter(anime => anime.estado === 'finished_airing'
 
         <div className="hero-buttons">
 
-            <button className="hero-btn-primary">
-                Explore Anime
-            </button>
+            <button 
+  className="hero-btn-primary"
+  onClick={() => {
+    const seccion = document.getElementById('catalogo');
+    if (seccion) {
+      seccion.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }}
+>
+  Explore Anime
+</button>
 
-            <button className="hero-btn-secondary" onClick={() => navigate('/register')}>
-                My List
-            </button>
+            <button 
+  className="hero-btn-secondary" 
+  onClick={() => {
+    if (isLogged) {
+      navigate('/profile')
+    } else {
+      navigate('/register')
+    }
+  }}
+>
+  My List
+</button>
 
         </div>
 
@@ -188,7 +205,7 @@ const topPopular = MIS_ANIMES.filter(anime => anime.estado === 'finished_airing'
 
 </div>
 
-          <div className="anime-grid">
+          <div className="anime-grid" id="catalogo">
             {animesFiltrados.length > 0 ? (
               animesFiltrados.map((anime) => {
                 const yaEstaAgregado = userList.some(item => item.anime_id === anime.id);
@@ -262,8 +279,12 @@ const topPopular = MIS_ANIMES.filter(anime => anime.estado === 'finished_airing'
   </li>
 ))}
             </ul>
-            <div className="sidebar-footer">
-    View all →
+            <div 
+  className="sidebar-footer" 
+  onClick={() => alert("¡Próximamente! En la siguiente versión vas a poder expandir el catálogo completo de esta sección.")}
+  style={{ cursor: 'pointer' }}
+>
+  View all →
 </div>
           </div>
 
@@ -281,8 +302,12 @@ const topPopular = MIS_ANIMES.filter(anime => anime.estado === 'finished_airing'
                 </li>
               ))}
             </ul>
-            <div className="sidebar-footer">
-    View all →
+            <div 
+  className="sidebar-footer" 
+  onClick={() => alert("¡Próximamente! En la siguiente versión vas a poder expandir el catálogo completo de esta sección.")}
+  style={{ cursor: 'pointer' }}
+>
+  View all →
 </div>
           </div>
 
@@ -300,8 +325,12 @@ const topPopular = MIS_ANIMES.filter(anime => anime.estado === 'finished_airing'
                 </li>
               ))}
             </ul>
-            <div className="sidebar-footer">
-    View all →
+            <div 
+  className="sidebar-footer" 
+  onClick={() => alert("¡Próximamente! En la siguiente versión vas a poder expandir el catálogo completo de esta sección.")}
+  style={{ cursor: 'pointer' }}
+>
+  View all →
 </div>
           </div>
 

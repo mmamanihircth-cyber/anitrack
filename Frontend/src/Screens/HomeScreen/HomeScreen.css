@@ -67,11 +67,11 @@ body{
 
     border-radius:50%;
 
-    overflow: hidden;     /* Recorta todo lo que se salga del círculo */
+    overflow: hidden;    
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #555; /* Color de fondo por si muestra la inicial */
+    background-color: #555; 
     color: white;
     font-weight: bold;
 
@@ -79,7 +79,7 @@ body{
 .avatar-img-mini {
     width:38px;
     height:38px;
-    object-fit: cover;    /* Clave: escala y centra la imagen sin deformarla */
+    object-fit: cover;    
     border-radius: 50%;
 }
 

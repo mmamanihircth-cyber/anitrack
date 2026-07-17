@@ -54,14 +54,10 @@ useEffect(() => {
     async function loadUserStatus() {
         try {
             const response = await getMyList();
-            console.log("GET /list:", response);
             const listaUser = response?.data?.miLista || [];
-
             const item = listaUser.find(
                 item => item.anime_id === anime.id
             );
-
-            console.log("ITEM ENCONTRADO:", item);
 
             if (item) {
                 setUserStatus(item.estado);
