@@ -51,12 +51,15 @@ setMyList(responseList.data?.miLista || []);
     const handleSaveProfile = async () => {
     try {
         const response = await updateProfile(selectedAvatar);
-        if (response && response.data) {
-            setUserData(response.data); 
+
+        if (response && response.ok) {
+            userData.imagen_url = response.data?.imagen_url || selectedAvatar;
+            setSelectedAvatar(userData.imagen_url);
         }
 
-        setEditingProfile(false);
-        alert("¡Avatar de Luffy guardado con éxito!");
+        setEditingProfile(false); 
+        alert("¡Avatar actualizado con éxito!");
+
     } catch (error) {
         console.error("Error al guardar en el cliente:", error);
         alert("No se pudo guardar el personaje.");
