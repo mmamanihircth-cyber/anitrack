@@ -1665,3 +1665,9 @@ input,
     transition:.30s;
 
 }
+
+@media (max-width: 1300px) {
+  .mal-sidebar {
+    display: none;
+  }
+}

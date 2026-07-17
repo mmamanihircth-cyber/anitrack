@@ -5,7 +5,6 @@ import { MIS_ANIMES } from '../../Data/animes'
 import './HomeScreen.css'
 import homeBanner from '../../Asent/home-banner.png'
 import { NotificationsDropdown } from '../../Components/NotificationsDropdown/NotificationsDropdown.jsx'
-// 🌟 Asegurate de que quede exactamente así:
 import { toggleFavorite, getFavorites } from "../../services/interaction.service";
 
 export const HomeScreen = () => {
@@ -13,7 +12,15 @@ export const HomeScreen = () => {
   const navigate = useNavigate()
   const [busqueda, setBusqueda] = useState('')
   const [userList, setUserList] = useState([])
-  // --- Agrega esto justo debajo de tus useState ---
+//  DEJÁ SOLO ESTAS TRES EN LA PARTE DE ARRIBA:
+const topAiring = MIS_ANIMES.filter(anime => anime.estado === 'airing');
+
+const topUpcoming = MIS_ANIMES.filter(anime => anime.estado === 'not_yet_aired');
+
+// Filtramos por terminados y los ordenamos de mayor a menor score para que sea un "Top Popular" real
+const topPopular = MIS_ANIMES.filter(anime => anime.estado === 'finished_airing')
+                             .sort((a, b) => Number(b.ranking) - Number(a.ranking));
+
   function handleLogout() {
     logout()
     navigate('/login')
@@ -24,8 +31,6 @@ export const HomeScreen = () => {
       if (!isLogged) return; 
       try {
         const response = await getFavorites();
-        
-        // Evaluamos de manera flexible lo que mande el backend
         if (response && Array.isArray(response)) {
           setUserList(response);
         } else if (response?.favoritos && Array.isArray(response.favoritos)) {
@@ -66,11 +71,6 @@ export const HomeScreen = () => {
   const animesFiltrados = MIS_ANIMES.filter(anime => 
     anime.titulo.toLowerCase().includes(busqueda.toLowerCase())
   )
-
-  // 📊 Filtros para separar las listas del panel derecho
-  const topAiring = MIS_ANIMES.filter(a => a.estado === 'airing').sort((a, b) => b.ranking - a.ranking);
-  const topUpcoming = MIS_ANIMES.filter(a => a.estado === 'upcoming');
-  const topPopular = MIS_ANIMES.filter(a => a.estado === 'popular');
 
   return (
     <div className="mal-container">
@@ -321,6 +321,7 @@ export const HomeScreen = () => {
           </div>
 
         </aside>
+        
 
       </div>
     </div>

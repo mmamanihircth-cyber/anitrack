@@ -12,6 +12,7 @@ const ProfileScreen = () => {
     const navigate = useNavigate();
     const [favorites, setFavorites] = useState([]);
     const { userData, logout } = useContext(AuthContext);
+
     const [selectedAvatar, setSelectedAvatar] = useState("");
     const [editingProfile, setEditingProfile] = useState(false);
 
@@ -19,10 +20,10 @@ const ProfileScreen = () => {
         async function loadFavorites() {
             try {
                 const response = await getFavorites();
-                setFavorites(response.data.favoritos || []);
+setFavorites(response.data.favoritos || [])
 
-                const responseList = await getMyList();
-                setMyList(responseList.data?.miLista || []);
+const responseList = await getMyList();
+setMyList(responseList.data?.miLista || []);
 
             } catch (error) {
                 console.error("Error al cargar favoritos y lista en Profile:", error);
@@ -243,8 +244,14 @@ editingProfile && (
         <span>Fecha de creación</span>
 
         <strong>
-            {userData?.fecha_creacion}
-        </strong>
+  {userData?.fecha_creacion 
+    ? new Date(userData.fecha_creacion).toLocaleDateString('es-AR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric'
+      })
+    : 'Cargando...'}
+</strong>
 
     </div>
 

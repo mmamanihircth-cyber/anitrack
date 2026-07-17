@@ -637,7 +637,7 @@ const handlePublishReply = async (reviewId) => {
                         <h2>Synopsis</h2>
 
                         <p>
-                            {anime.sinopsis}
+                            {anime.sinopsis_complete}
                         </p>
 
                     </section>
@@ -741,44 +741,36 @@ const handlePublishReply = async (reviewId) => {
         <div className="theme-column">
 
             <section className="detail-card">
-
-    <h2>🎵 Opening Themes</h2>
-
+    <h3>🎵 Opening Themes</h3>
     <div className="music-list">
-
         {anime.openings?.map((opening, index) => (
-
-            <div
-                key={index}
-                className="music-item"
-            >
-
+            <div className="music-item" key={opening.id || index}>
                 <div className="music-number">
-
                     {String(index + 1).padStart(2, "0")}
-
                 </div>
-
+                
                 <div className="music-info">
-
                     <strong>{opening.title}</strong>
-
                     <span>{opening.artist}</span>
-
                 </div>
 
-                <div className="music-icon">
-
-                    ▶
-
-                </div>
-
+                {opening.song ? (
+                    <a
+                        className="music-icon"
+                        href={opening.song}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        ▶
+                    </a>
+                ) : (
+                    <div className="music-icon" style={{ opacity: 0.3, cursor: 'default' }}>
+                        ▶
+                    </div>
+                )}
             </div>
-
         ))}
-
     </div>
-
 </section>
 
         </div>
@@ -786,44 +778,36 @@ const handlePublishReply = async (reviewId) => {
         <div className="theme-column">
 
             <section className="detail-card">
-
-    <h2>🎵 Ending Themes</h2>
-
+    <h3>🎵 Ending Themes</h3>
     <div className="music-list">
-
         {anime.endings?.map((ending, index) => (
-
-            <div
-                key={index}
-                className="music-item"
-            >
-
+            <div className="music-item" key={ending.id || index}>
                 <div className="music-number">
-
                     {String(index + 1).padStart(2, "0")}
-
                 </div>
-
+                
                 <div className="music-info">
-
                     <strong>{ending.title}</strong>
-
                     <span>{ending.artist}</span>
-
                 </div>
 
-                <div className="music-icon">
-
-                    ▶
-
-                </div>
-
+                {ending.song ? (
+                    <a
+                        className="music-icon"
+                        href={ending.song}
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        ▶
+                    </a>
+                ) : (
+                    <div className="music-icon" style={{ opacity: 0.3, cursor: 'default' }}>
+                        ▶
+                    </div>
+                )}
             </div>
-
         ))}
-
     </div>
-
 </section>
 
         </div>

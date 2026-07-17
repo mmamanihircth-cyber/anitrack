@@ -2832,3 +2832,59 @@ MAIN CHARACTERS
     opacity: 0.5;
     cursor: not-allowed;
 }
+@media (max-width: 1100px) {
+    .hero-top{
+        width: 100%;
+    }
+    .hero-info {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        width: 100% !important;
+        padding: 0 15px !important;
+        box-sizing: border-box;
+    }
+    .score-circle {
+        display: flex !important;
+        flex-direction: column !important; /* Mantiene "8.73" arriba de "Score" */
+        justify-content: center !important; /* Centrado vertical */
+        align-items: center !important;     /* Centrado horizontal */
+        text-align: center !important;
+        
+        /* Aseguramos que mantenga su forma circular */
+        width: 120px !important;
+        height: 120px !important;
+        border-radius: 50% !important;
+        margin: 0 auto !important;          /* Centrado absoluto en su fila */
+    }
+    .hero-top img{
+        display: none;
+    }
+    .hero-overlay {
+        padding: 0px !important;
+        order: 1;
+    }
+    .detail-sidebar {
+        /* 🌟 Cambiamos el orden para que se renderice antes que el contenido principal (.detail-main) */
+        order: -1 !important;
+    }
+    .your-list-section {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+    .user-panel-grid{
+        display: flex;
+        flex-direction: column;
+    }
+    .panel-item{
+        width: 100%;
+    }
+    .detail-content{
+        padding: 0;
+    }
+    .characters-grid{
+        display: flex;
+        flex-direction: column;
+    }
+}

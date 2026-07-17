@@ -47,10 +47,11 @@ class InteractionController {
         });
     }
 }
+
     // 2. DAR O QUITAR LIKE (Toggle) + Crear Notificación
 async toggleLike(request, response) {
     try {
-        const usuario_id = request.user.id;
+        const usuario_id = request.user.id;            
         const { review_id } = request.params;
 
         const review = await Review.findById(review_id);
@@ -135,10 +136,10 @@ async toggleLike(request, response) {
             if (review.usuario_id.toString() !== usuario_id) {
                 // 🟢 CORREGIDO: Mismos campos estandarizados para persistencia
                 await Notification.create({
-                    fk_user_id: review.usuario_id,
-                    tipo: 'REPLY',
+                    usuario_destino_id: review.usuario_id,
+                    tipo: 'respuesta',
                     mensaje: `Un usuario respondió a tu comentario: "${texto.substring(0, 20)}..."`,
-                    leida: false
+                    leido: false
                 });
             }
 
@@ -196,33 +197,6 @@ async toggleLike(request, response) {
         });
 
     }
-}
-async getMyList(request, response) {
-
-    try {
-
-        const usuario_id = request.user.id;
-
-        const lista = await UserList.find({
-            usuario_id
-        });
-
-        return response.status(200).json({
-            ok: true,
-            data: lista
-        });
-
-    } catch (error) {
-
-        console.error(error);
-
-        return response.status(500).json({
-            ok: false,
-            message: "Error al obtener la lista"
-        });
-
-    }
-
 }
     // 6. AGREGAR O QUITAR FAVORITO
 async toggleFavorite(request, response) {
