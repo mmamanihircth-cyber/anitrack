@@ -1,16 +1,150 @@
-# React + Vite
+# 🎌 AniTrack - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Frontend de **AniTrack**, una aplicación web desarrollada en React que permite a los usuarios gestionar su lista de animes, dejar reseñas, interactuar con la comunidad y recibir notificaciones.
 
-Currently, two official plugins are available:
+Este proyecto fue desarrollado para la materia **Programación Web Full Stack**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+---
 
-## React Compiler
+# 🚀 Demo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Frontend
+https://anitrack-rho.vercel.app
 
-## Expanding the ESLint configuration
+## Backend (API)
+https://anitrack-back.vercel.app
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+# ✨ Funcionalidades
+
+- Registro de usuarios
+- Inicio de sesión mediante JWT
+- Verificación de cuenta por correo electrónico
+- Recuperación de contraseña mediante email
+- Visualización de animes
+- Agregar animes a favoritos
+- Administrar lista personal de animes
+- Crear, editar y eliminar reseñas
+- Dar Me Gusta y No Me Gusta a reseñas
+- Sistema de comentarios
+- Sistema de respuestas a comentarios
+- Notificaciones en tiempo real para interacciones
+- Perfil de usuario con estadísticas
+- Diseño responsive
+
+---
+
+# 🛠 Tecnologías utilizadas
+
+- React
+- React Router DOM
+- Vite
+- CSS3
+- JavaScript ES6
+- Fetch API
+- JWT
+
+---
+
+# 📁 Estructura del proyecto
+
+```
+src/
+│
+├── asent/
+├── components/
+├── context/
+├── data/
+├── hooks/
+├── screens/
+├── services/
+├── app.jsx
+└── main.jsx
+```
+
+---
+
+# ⚙ Instalación
+
+Clonar el repositorio
+
+```bash
+git clone https://github.com/mmamanihircth-cyber/anitrack-frontend.git
+```
+
+Ingresar al proyecto
+
+```bash
+cd anitrack-frontend
+```
+
+Instalar dependencias
+
+```bash
+npm install
+```
+
+Crear un archivo `.env`
+
+```env
+VITE_API_URL=http://localhost:8080
+```
+
+Iniciar el proyecto
+
+```bash
+npm run dev
+```
+
+---
+
+# 🌐 Variables de entorno
+
+| Variable | Descripción |
+|----------|-------------|
+| VITE_API_URL | URL del backend |
+
+---
+
+# 🔒 Autenticación
+
+La autenticación se realiza mediante JSON Web Token (JWT).
+
+Luego del login, el token se almacena localmente y es enviado automáticamente al backend mediante el header:
+
+```
+Authorization: Bearer <token>
+```
+
+Las rutas protegidas requieren un usuario autenticado.
+
+---
+
+# 📡 Comunicación con la API
+
+El frontend consume una API REST desarrollada en Express.
+
+Principales recursos utilizados:
+
+- Auth
+- Users
+- Anime
+- Reviews
+- Favorites
+- User List
+- Notifications
+
+---
+
+# 📱 Responsive Design
+
+La aplicación fue desarrollada para adaptarse correctamente a distintos tamaños de pantalla, desde dispositivos móviles hasta pantallas de escritorio.
+
+---
+
+# 👨‍💻 Autor
+
+**Matías**
+
+Proyecto desarrollado como trabajo práctico integrador para la carrera Ingeniería en Sistemas de Información.
