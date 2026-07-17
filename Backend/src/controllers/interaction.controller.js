@@ -47,7 +47,6 @@ class InteractionController {
         });
     }
 }
-
     // 2. DAR O QUITAR LIKE (Toggle) + Crear Notificación
 async toggleLike(request, response) {
     try {
