@@ -98,7 +98,7 @@ export const LoginScreen = () => {
                                     setShowPassword(!showPassword)
                                 }
                             >
-                                {showPassword ? <ImEyeBlocked /> : <ImEye />}
+                                {showPassword ? <ImEye /> : <ImEyeBlocked />}
                             </button>
                         </div>
                     </div>
