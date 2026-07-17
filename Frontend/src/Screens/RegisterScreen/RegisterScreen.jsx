@@ -5,8 +5,8 @@ import useRequest from '../../hooks/useRequest';
 import { register } from '../../services/authService'; 
 import { AVAILABLE_AVATARS } from '../../Data/avatars';
 import '../LoginScreen/LoginScreen.css'; 
-import { HiEyeSlash } from "react-icons/hi2";
-import { RiEyeOffLine } from "react-icons/ri";
+import { ImEyeBlocked } from "react-icons/im";
+import { ImEye } from "react-icons/im";
 
 export const RegisterScreen = () => {
     const navigate = useNavigate();
@@ -106,7 +106,7 @@ export const RegisterScreen = () => {
                                 className="toggle-password"
                                 onClick={() => setShowPassword(!showPassword)}
                             >
-                                {showPassword ? <RiEyeOffLine /> : <HiEyeSlash />}
+                                {showPassword ? <ImEyeBlocked /> : <ImEye />}
                             </button>
                         </div>
                     </div>

@@ -18,55 +18,36 @@ body{
 }
 
 .mal-header{
-
     position:sticky;
     top:0;
     z-index:999;
-
     display:flex;
     align-items:center;
     justify-content:space-between;
-
     padding:18px 42px;
-
     backdrop-filter:blur(18px);
-
     background:rgba(12,18,35,.78);
-
     border-bottom:1px solid rgba(90,120,255,.18);
-
     box-shadow:
         0 10px 40px rgba(0,0,0,.35);
 }
 .profile-link{
-
     display:flex;
-
     align-items:center;
-
     gap:10px;
-
     cursor:pointer;
-
     transition:.25s;
-
 }
 
 .profile-link:hover{
-
     transform:translateY(-2px);
-
 }
 
 
 .profile-mini-avatar{
-
     width:38px;
-
     height:38px;
-
     border-radius:50%;
-
     overflow: hidden;    
     display: flex;
     align-items: center;
@@ -84,1248 +65,761 @@ body{
 }
 
 .header-logo{
-
     cursor:pointer;
-
     user-select:none;
-
     transition:.25s;
 }
 
 .header-logo:hover{
-
     transform:translateY(-2px);
 }
 
 .logo-title{
 
     margin:0;
-
     font-size:38px;
-
     font-weight:800;
-
     letter-spacing:-1px;
-
     color:white;
 }
 
 .logo-title span{
-
     color:#5b88ff;
 }
 
 .header-search-container{
-
     width:470px;
-
     position:relative;
 }
 
 .header-search-input{
-
     width:100%;
-
     height:48px;
-
     padding:0 20px;
-
     border-radius:30px;
-
     border:1px solid rgba(90,120,255,.15);
-
     outline:none;
-
     background:#121b31;
-
     color:white;
-
     font-size:15px;
-
     transition:.25s;
 }
 
 .header-search-input::placeholder{
-
     color:#8d97b7;
 }
 
 .header-search-input:focus{
-
     border-color:#5b88ff;
-
     box-shadow:
-
     0 0 0 4px rgba(91,136,255,.12);
-
     background:#17213a;
 }
 
 .header-user{
-
     display:flex;
-
     align-items:center;
-
     gap:15px;
 }
 
 .username{
-
     color:#9eb6ff;
-
     font-weight:700;
-
     font-size:15px;
 }
 
 .auth-buttons-group{
-
     display:flex;
-
     gap:12px;
 }
 .btn-comunidades,
 .btn-login-header,
 .btn-register-header,
 .btn-logout{
-
     height:42px;
-
     padding:0 22px;
-
     border-radius:12px;
-
     border:none;
-
     cursor:pointer;
-
     font-size:14px;
-
     font-weight:700;
-
     transition:.25s;
 }
 
 .btn-comunidades{
-
     background:#4c82ff;
-
     color:white;
 }
 
 .btn-comunidades:hover{
-
     transform:translateY(-2px);
-
     background:#6694ff;
 }
 
 .btn-login-header{
-
     color:white;
-
     background:linear-gradient(
         135deg,
         #4d79ff,
         #6d9cff
     );
-
     box-shadow:
-
     0 8px 25px rgba(77,121,255,.35);
 }
 
 .btn-login-header:hover{
-
     transform:translateY(-2px);
-
     box-shadow:
-
     0 12px 30px rgba(77,121,255,.45);
 }
 
 .btn-register-header{
-
     background:#1d263c;
-
     color:white;
-
     border:1px solid rgba(255,255,255,.08);
 }
 
 .btn-register-header:hover{
-
     background:#26324f;
-
     transform:translateY(-2px);
 }
 
 .btn-logout{
-
     background:#d84545;
-
     color:white;
 }
 
 .btn-logout:hover{
-
     transform:translateY(-2px);
-
     background:#e85c5c;
 }
 
 @media(max-width:1200px){
 
 .header-search-container{
-
     width:330px;
 }
-
 }
 
 @media(max-width:900px){
 
 .mal-header{
-
     flex-direction:column;
-
     gap:20px;
-
     padding:25px;
 }
 
 .header-search-container{
-
     width:100%;
 }
 
 .header-user{
-
     width:100%;
-
     justify-content:center;
 }
 
 .auth-buttons-group{
-
     width:100%;
-
     justify-content:center;
 }
 
 }
 
 .welcome-banner{
-
     position:relative;
-
     overflow:hidden;
-
     border-radius:28px;
-
     min-height:290px;
-
     margin-bottom:35px;
-
     display:flex;
-
     align-items:center;
-
     padding:55px;
-
     background:
-
     linear-gradient(
         90deg,
         rgba(7,11,22,.92),
         rgba(10,18,38,.75)
     ),
-
     url("../../Asent/home-banner.png");
-
     background-size:cover;
-
     background-position:center;
-
     box-shadow:
-
         0 20px 60px rgba(0,0,0,.40);
-
     border:1px solid rgba(255,255,255,.06);
-
 }
 
 .banner-overlay{
-
     position:absolute;
-
     inset:0;
-
     background:
-
     radial-gradient(
-
         circle at right,
-
         rgba(90,136,255,.28),
-
         transparent 45%
-
     );
-
 }
 
 .welcome-content{
-
     position:relative;
-
     z-index:2;
-
     width:60%;
-
 }
 
 .season-badge{
-
     display:inline-flex;
-
     align-items:center;
-
     gap:8px;
-
     background:
-
     rgba(91,136,255,.16);
-
     color:#b8ccff;
-
     padding:
-
         8px 18px;
-
     border-radius:999px;
-
     font-size:13px;
-
     margin-bottom:20px;
-
     border:
-
     1px solid rgba(91,136,255,.25);
-
 }
 .welcome-content h2{
-
     margin:0;
-
     font-size:48px;
-
     line-height:1.1;
-
     font-weight:800;
-
 }
 .welcome-content p{
-
     margin-top:18px;
-
     color:#b5bfd8;
-
     line-height:1.8;
-
     font-size:16px;
-
     max-width:520px;
-
 }
 
 .hero-buttons{
-
     display:flex;
-
     gap:16px;
-
     margin-top:32px;
-
 }
 
 .hero-btn-primary{
-
     height:52px;
-
     padding:0 28px;
-
     border:none;
-
     border-radius:14px;
-
     cursor:pointer;
-
     color:white;
-
     font-size:15px;
-
     font-weight:700;
-
     background:
-
     linear-gradient(
         135deg,
         #4c82ff,
         #74a3ff
     );
-
     transition:.30s;
-
     box-shadow:
-
     0 15px 35px rgba(76,130,255,.35);
-
 }
 
 .hero-btn-primary:hover{
-
     transform:
-
     translateY(-3px);
-
 }
 
 .hero-btn-secondary{
-
     height:52px;
-
     padding:0 28px;
-
     border-radius:14px;
-
     border:1px solid rgba(255,255,255,.08);
-
     background:
-
     rgba(255,255,255,.05);
-
     color:white;
-
     cursor:pointer;
-
     transition:.30s;
 
 }
 
 .hero-btn-secondary:hover{
-
     background:
-
     rgba(255,255,255,.10);
-
 }
 
 @media(max-width:1000px){
 
 .welcome-content{
-
     width:100%;
 }
 
 .welcome-content h2{
-
     font-size:38px;
 }
-
 }
 
 @media(max-width:700px){
 
 .welcome-banner{
-
     padding:30px;
-
     min-height:240px;
 }
 
 .hero-buttons{
-
     flex-direction:column;
 }
 
 .welcome-content h2{
-
     font-size:30px;
 }
-
 }
 
 .anime-grid{
-
     display:flex;
-
     flex-direction:column;
-
     gap:22px;
-
 }
 
 .glass-card{
-
     position:relative;
-
     overflow:hidden;
-
     display:flex;
-
     gap:22px;
-
     align-items:center;
-
     padding:22px;
-
     border-radius:24px;
-
     background:
-
         rgba(18,24,38,.72);
-
     backdrop-filter:blur(16px);
-
     border:1px solid rgba(255,255,255,.06);
-
     box-shadow:
-
         0 18px 45px rgba(0,0,0,.35);
-
     transition:
-
         .35s ease;
-
 }
 
 .glass-card:hover{
-
     transform:
-
         translateY(-6px);
-
     border-color:
-
         rgba(91,136,255,.28);
-
     box-shadow:
-
         0 28px 65px rgba(0,0,0,.45),
-
         0 0 35px rgba(91,136,255,.12);
-
 }
 
 .glass-card::before{
-
     content:"";
-
     position:absolute;
-
     inset:0;
-
     background:
-
     linear-gradient(
-
         120deg,
-
         transparent,
-
         rgba(255,255,255,.05),
-
         transparent
-
     );
-
     transform:
-
         translateX(-120%);
-
     transition:1s;
-
 }
 
 .glass-card:hover::before{
-
     transform:
-
         translateX(120%);
-
 }
 
 .card-rank-box{
-
     min-width:65px;
-
     height:90px;
-
     border-radius:18px;
-
     background:
-
         linear-gradient(
-
             180deg,
-
             #2b4ea8,
-
             #1a2745
-
         );
-
     display:flex;
-
     flex-direction:column;
-
     justify-content:center;
-
     align-items:center;
-
 }
 
 .rank-label{
-
     color:#bdd0ff;
-
     font-size:11px;
-
     letter-spacing:1px;
-
 }
 
 .rank-value{
-
     font-size:26px;
-
     font-weight:700;
-
     color:white;
-
 }
 
 .anime-poster{
-
     width:120px;
-
     height:170px;
-
     border-radius:16px;
-
     object-fit:cover;
-
     transition:.35s;
-
     box-shadow:
-
         0 12px 28px rgba(0,0,0,.35);
-
 }
 
 .glass-card:hover .anime-poster{
-
     transform:
-
         scale(1.04);
-
 }
 
 .anime-details{
-
     flex:1;
-
     display:flex;
-
     flex-direction:column;
-
     gap:12px;
-
 }
 
 .anime-title-link{
-
     margin:0;
-
     color:white !important;
-
     font-size:24px;
-
     font-weight:700;
-
     transition:.25s;
-
 }
 
 .anime-title-link:hover{
-
     color:#74a3ff !important;
-
 }
 
 .anime-synopsis-text{
-
     color:#aeb7ca;
-
     line-height:1.8;
-
     font-size:15px;
-
 }
 
 .anime-meta-row{
-
     display:flex;
-
     align-items:center;
-
     flex-wrap:wrap;
-
     gap:12px;
-
 }
 
 .meta-badge{
-
     background:
-
         rgba(91,136,255,.16);
-
     color:#b8ccff;
-
     border:
-
         1px solid rgba(91,136,255,.22);
-
     padding:
-
         8px 14px;
-
     border-radius:999px;
-
     font-size:12px;
-
     font-weight:600;
-
 }
 
 .meta-eps{
-
     color:#bfc8da;
-
 }
 
 .meta-members{
-
     color:#95a4c9;
-
 }
 
 .btn-primary{
-
     margin-left:auto;
-
     height:46px;
-
     padding:0 22px;
-
     border:none;
-
     border-radius:12px;
-
     background:
-
         linear-gradient(
-
             135deg,
-
             #4c82ff,
-
             #74a3ff
-
         );
-
     color:white;
-
     font-weight:700;
-
     cursor:pointer;
-
     transition:.30s;
-
     box-shadow:
-
         0 12px 28px rgba(76,130,255,.30);
-
 }
 
 .btn-primary:hover{
-
     transform:
-
         translateY(-2px);
-
 }
 
 @media(max-width:900px){
 
 .glass-card{
-
     flex-direction:column;
-
     text-align:center;
-
 }
 
 .card-rank-box{
-
     width:100%;
-
     height:70px;
-
 }
 
 .anime-meta-row{
-
     justify-content:center;
-
 }
 
 .btn-primary{
-
     width:100%;
-
     margin-left:0;
-
 }
-
 }
 
 .mal-sidebar{
-
     position:sticky;
-
     top:100px;
-
     align-self:flex-start;
-
     display:flex;
-
     flex-direction:column;
-
     gap:28px;
-
 }
 
 .sidebar-section{
-
     position:relative;
-
     overflow:hidden;
-
     padding:22px;
-
     border-radius:22px;
-
     background:rgba(18,24,38,.72);
-
     backdrop-filter:blur(16px);
-
     border:1px solid rgba(255,255,255,.06);
-
     box-shadow:
         0 18px 45px rgba(0,0,0,.35);
-
     transition:.30s;
 }
 
 .sidebar-section:hover{
-
     transform:translateY(-4px);
-
     border-color:rgba(91,136,255,.25);
-
     box-shadow:
         0 24px 55px rgba(0,0,0,.42),
         0 0 28px rgba(91,136,255,.10);
-
 }
 
 .sidebar-section::before{
-
     content:"";
-
     position:absolute;
-
     inset:0;
-
     background:
-
     linear-gradient(
         120deg,
         transparent,
         rgba(255,255,255,.04),
         transparent
     );
-
     transform:translateX(-120%);
-
     transition:1s;
 }
 
 .sidebar-section:hover::before{
-
     transform:translateX(120%);
 }
 
 .sidebar-title{
-
     margin:0 0 20px 0;
-
     font-size:18px;
-
     font-weight:700;
-
     color:white;
-
     padding-bottom:12px;
-
     border-bottom:1px solid rgba(91,136,255,.20);
-
 }
 
 .top-anime-list{
-
     display:flex;
-
     flex-direction:column;
-
     gap:14px;
-
     list-style:none;
-
     margin:0;
-
     padding:0;
 }
 
 .top-anime-item{
-
     display:flex;
-
     align-items:center;
-
     gap:12px;
-
     padding:10px;
-
     border-radius:14px;
-
     cursor:pointer;
-
     transition:.25s;
-
 }
 
 .top-anime-item:hover{
-
     background:rgba(91,136,255,.08);
-
 }
 
 .top-index{
-
     min-width:28px;
-
     height:28px;
-
     border-radius:50%;
-
     display:flex;
-
     justify-content:center;
-
     align-items:center;
-
     background:#4c82ff;
-
     color:white;
-
     font-weight:700;
-
     font-size:13px;
-
 }
 
 .top-mini-img{
-
     width:54px;
-
     height:76px;
-
     border-radius:10px;
-
     object-fit:cover;
-
     transition:.30s;
-
 }
 
 .top-anime-item:hover .top-mini-img{
-
     transform:scale(1.05);
-
 }
 
 .top-info{
-
     flex:1;
 }
 
 .top-info h4{
-
     margin:0;
-
     color:white;
-
     font-size:14px;
-
     line-height:1.4;
-
 }
 
 .top-info p{
-
     margin-top:6px;
-
     color:#96a7cf;
-
     font-size:12px;
-
 }
 
 .sidebar-section::after{
-
     content:"";
-
     position:absolute;
-
     right:-90px;
-
     top:-90px;
-
     width:180px;
-
     height:180px;
-
     border-radius:50%;
-
     background:
-
     radial-gradient(
         circle,
         rgba(76,130,255,.18),
         transparent 70%
     );
-
     filter:blur(20px);
-
     pointer-events:none;
-
 }
 
 .sidebar-footer{
-
     margin-top:10px;
-
     padding-top:15px;
-
     border-top:1px solid rgba(255,255,255,.05);
-
     color:#8e9fc4;
-
     font-size:12px;
-
     text-align:center;
-
 }
 
 .mal-layout{
-
     max-width:1600px;
-
     margin:40px auto;
-
     padding:0 35px;
-
     display:grid;
-
     grid-template-columns:
-
         2.8fr
-
         1fr;
-
     gap:35px;
-
 }
 
 ::-webkit-scrollbar{
-
     width:10px;
-
 }
 
 ::-webkit-scrollbar-track{
-
     background:#0a0f1b;
-
 }
 
 ::-webkit-scrollbar-thumb{
-
     background:#355dc9;
-
     border-radius:50px;
-
 }
 
 ::-webkit-scrollbar-thumb:hover{
-
     background:#4d79ff;
-
 }
 
 ::selection{
-
     background:#4d79ff;
-
     color:white;
-
 }
 
 @keyframes fadeUp{
-
     from{
-
         opacity:0;
-
         transform:
-
             translateY(25px);
-
     }
-
     to{
-
         opacity:1;
-
         transform:
-
             translateY(0);
-
     }
-
 }
 
 .welcome-banner{
-
     animation:
-
         fadeUp .8s ease;
-
 }
 
 .glass-card{
-
     animation:
-
         fadeUp .6s ease;
-
 }
 
 .sidebar-section{
-
     animation:
-
         fadeUp .8s ease;
-
 }
 
 .anime-poster{
-
     transition:
-
         transform .35s,
-
         box-shadow .35s;
-
 }
 
 .anime-poster:hover{
-
     transform:
-
         scale(1.05);
-
     box-shadow:
-
         0 20px 45px
-
         rgba(0,0,0,.45);
-
 }
 
 .anime-title-link{
-
     transition:
-
         color .25s,
-
         letter-spacing .25s;
-
 }
 
 .anime-title-link:hover{
-
     letter-spacing:.5px;
-
 }
 .btn-added {
     margin-left:auto;
-
     height:46px;
-
     padding:0 34px;
-
     border:none;
-
     border-radius:12px;
-
     background:
-
         linear-gradient(
-
             135deg,
-
             #b91c1c,
-
             #991b1b
-
         );
-
     color:white;
-
     font-weight:700;
-
     cursor:pointer;
     pointer-events: auto !important;
     transition:.30s;
-
     box-shadow:
-
         0 12px 28px rgba(76,130,255,.30);
 }
 .btn-added:hover {
@@ -1333,162 +827,93 @@ body{
 }
 .btn-add-list,
 .btn-primary{
-
     transition:
-
         .30s;
-
 }
 
 .btn-add-list:hover,
 .btn-primary:hover{
-
     transform:
-
         translateY(-2px);
-
 }
 
 .glass-card,
 .sidebar-section{
-
     backdrop-filter:
-
         blur(18px);
-
 }
 
 @media(max-width:1300px){
-
 .mal-layout{
-
     grid-template-columns:1fr;
-
 }
-
 .mal-sidebar{
-
     position:relative;
-
     top:0;
-
 }
-
 }
 
 @media(max-width:900px){
-
 .logo-title{
-
     font-size:32px;
-
 }
 
 .anime-poster{
-
     width:110px;
-
     height:155px;
-
 }
-
 }
 
 @media(max-width:700px){
-
 .mal-layout{
-
     padding:20px;
-
 }
-
 .glass-card{
-
     padding:18px;
-
 }
-
 .anime-title-link{
-
     font-size:22px;
-
 }
-
 .anime-synopsis-text{
-
     font-size:14px;
-
 }
-
 }
 
 @media(max-width:500px){
-
 .header-search-input{
-
     font-size:14px;
-
 }
-
 .hero-buttons{
-
     flex-direction:column;
-
 }
-
 .btn-primary,
-
 .btn-add-list{
-
     width:100%;
-
 }
-
 }
 
 .mal-container::before{
-
     content:"";
-
     position:fixed;
-
     inset:0;
-
     pointer-events:none;
-
     background:
-
         radial-gradient(
-
             circle at top right,
-
             rgba(91,136,255,.12),
-
             transparent 35%
-
         ),
-
         radial-gradient(
-
             circle at bottom left,
-
             rgba(91,136,255,.10),
-
             transparent 30%
-
         );
-
 }
 button,
-
 input,
-
 .anime-card,
-
 .top-anime-item{
-
     transition:.30s;
-
 }
 
 @media (max-width: 1300px) {

@@ -133,3 +133,24 @@
   color: #94a3b8;
   margin: 0;
 }
+.bell-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #a4b3c6; 
+    font-size: 24px; 
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%; 
+    transition: all 0.2s ease-in-out;
+    user-select: none;
+}
+.bell-icon:hover {
+    color: #ffffff; 
+    background-color: rgba(255, 255, 255, 0.08); 
+    transform: scale(1.05); 
+}
+
+.bell-icon:active {
+    transform: scale(0.95);
+}

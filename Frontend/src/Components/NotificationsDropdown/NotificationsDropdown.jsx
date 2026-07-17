@@ -8,7 +8,6 @@ export function NotificationsDropdown() {
   const [notifications, setNotifications] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
-  
   const { isLogged } = useContext(AuthContext);
   const navigate = useNavigate();
   const dropdownRef = useRef(null);

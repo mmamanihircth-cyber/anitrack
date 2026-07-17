@@ -18,7 +18,7 @@ const topAiring = MIS_ANIMES.filter(anime => anime.estado === 'airing');
 const topUpcoming = MIS_ANIMES.filter(anime => anime.estado === 'not_yet_aired');
 
 const topPopular = MIS_ANIMES.filter(anime => anime.estado === 'finished_airing')
-                             .sort((a, b) => Number(b.ranking) - Number(a.ranking));
+                            .sort((a, b) => Number(b.ranking) - Number(a.ranking));
 
   function handleLogout() {
     logout()

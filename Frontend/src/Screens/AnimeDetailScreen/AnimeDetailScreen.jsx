@@ -9,43 +9,27 @@ import './AnimeDetailScreen.css'
 export const AnimeDetailScreen = () => {
 
     const { hash } = useLocation();
-
     const { user } = useContext(AuthContext);
     const { id } = useParams()
     const navigate = useNavigate()
     const { isLogged } = useContext(AuthContext)
-
     const [selectedStars, setSelectedStars] = useState(0);
-
     const [hoverStars, setHoverStars] = useState(0);
-
     const anime = MIS_ANIMES.find(a => a.id === id)
-
     const relatedAnimes = MIS_ANIMES.filter(a =>
     anime.related?.includes(a.id)
 )
     const commentsRef = useRef(null);
-
     const staffRef = useRef(null);
-
     const [userStatus, setUserStatus] = useState("watching");
-
     const [userScore, setUserScore] = useState(9);
-
     const [myScore, setMyScore] = useState(0);
-
     const [hoverScore, setHoverScore] = useState(0);
-
     const [favorite, setFavorite] = useState(false);
-
     const [episodesWatched, setEpisodesWatched] = useState(0);
-
     const [reviews, setReviews] = useState([]);
-
     const [activeReplyId, setActiveReplyId] = useState(null);
-
     const [replyText, setReplyText] = useState("");
-
     const [reviewText, setReviewText] = useState("");
 
 useEffect(() => {
@@ -299,98 +283,68 @@ const handlePublishReply = async (reviewId) => {
                     backgroundImage: `url(${anime.imagen})`
                 }}
             >
-
                 <div className="hero-overlay">
-
                     <button
                         className="back-home-btn"
                         onClick={() => navigate('/home')}
                     >
                         ← Home
                     </button>
-
                     <div className="hero-content">
-
                         <div className='hero-top'>
-
                         <img
                             src={anime.imagen}
                             alt={anime.titulo}
                             className="hero-poster"
                         />
-
                         <div className="hero-info">
-
                             <span className="hero-type">
                                 {anime.tipo}
                             </span>
-
                             <h1>
                                 {anime.titulo}
                             </h1>
-
                             <p className="hero-status">
                                 {anime.estado === 'airing'
                                     ? 'Currently Airing'
                                     : 'Upcoming'}
                             </p>
-
                             <div className="hero-score">
-
                                 <div className="score-circle">
-
                                     <span className="score-number">
                                         {anime.ranking}
                                     </span>
-
                                     <span className="score-text">
                                         Score
                                     </span>
-
                                 </div>
-
                                 <div className="score-stats">
-
                                     <div>
-
                                         <strong>
                                             {anime.popularidad}
                                         </strong>
-
                                         <span>
                                             Popularity
                                         </span>
-
                                     </div>
-
                                     <div>
-
                                         <strong>
                                             {anime.miembros}
                                         </strong>
-
                                         <span>
                                             Members
                                         </span>
-
                                     </div>
-
                                     <div>
-
                                         <strong>
                                             {anime.episodios}
                                         </strong>
-
                                         <span>
                                             Episodes
                                         </span>
-
                                     </div>
-
                                 </div>
-
                             </div>
-
                             {isLogged ? (
 
     <>
@@ -426,26 +380,18 @@ const handlePublishReply = async (reviewId) => {
         </div>
     )}
 </div>
-
 )}
-
                         </div>
                         </div>
-
                         {isLogged && (
                             <section className='your-list-section'>
                                 <div className="hero-user-panel">
-
     <h3 className="user-panel-title">
         Your List
     </h3>
-
     <div className="user-panel-grid">
-
         <div className="panel-item">
-
             <p>
-
     <strong>Status:</strong>
     <select
         className={`status-select ${userStatus}`}
@@ -458,37 +404,23 @@ const handlePublishReply = async (reviewId) => {
         <option value="paused">On Hold</option>
         <option value="dropped">Dropped</option>
     </select>
-
 </p>
         
         </div>
-
         <div className="panel-item">
-
             <label>Episodes</label>
-
             <div className="episode-counter">
-
                 <button className="episode-btn" onClick={decreaseEpisodes}>−</button>
-
                 <span>
                     {episodesWatched} / {totalEpisodes ?? "?"}
                 </span>
-
                 <button className="episode-btn" onClick={increaseEpisodes}>+</button>
-
             </div>
-
         </div>
-
         <div className="panel-item">
-
             <label>Your Score</label>
-
             <div className="score-selector">
-
                 {[1,2,3,4,5,6,7,8,9,10].map(score => (
-
                     <button
                         key={score}
                         className={
@@ -500,22 +432,17 @@ const handlePublishReply = async (reviewId) => {
                     >
                         {score}
                     </button>
-
                 ))}
-
             </div>
-
         </div>
-
         <div className="panel-item">
-
             <label>Favorite</label>
-  <button
+    <button
     className={favorite ? "favorite-btn active" : "favorite-btn"}
     onClick={handleFavorite}
-  >
+    >
     {favorite ? "Added" : "+ Add to List"}
-  </button>
+    </button>
 
         </div>
 
@@ -575,54 +502,31 @@ const handlePublishReply = async (reviewId) => {
 
             </section>
 
-            {/* CONTENIDO */}
-
             <div className="detail-content">
-
-                {/* IZQUIERDA */}
 
                 <aside className="detail-sidebar">
 
                     <div className="info-card">
-
                         <h3>Information</h3>
-
                         <p><strong>Type:</strong> {anime.tipo}</p>
-
                         <p><strong>Status:</strong> {anime.estado}</p>
-
                         <p><strong>Episodes:</strong> {anime.episodios}</p>
-
                         <p><strong>Popularity:</strong> #{anime.popularidad}</p>
-
                     </div>
-
                 </aside>
-
-                {/* DERECHA */}
-
                 <main className="detail-main">
-
                     <section className="detail-card">
-
                         <h2>Synopsis</h2>
-
                         <p>
                             {anime.sinopsis_complete}
                         </p>
-
                     </section>
-
                     <section className="detail-card">
-
                         <h2>Background</h2>
-
                         <p>
                             {anime.background}
                         </p>
-
                     </section>
-
                     <section className="why-watch-section">
 
     <h2>✨ Why Watch This Anime?</h2>
@@ -630,16 +534,13 @@ const handlePublishReply = async (reviewId) => {
 <div className="whywatch-grid">
 
     {anime.whyWatch?.map((item, index) => (
-
         <div
             key={index}
             className="whywatch-card"
         >
-
             <div className="whywatch-icon">
                 {item.icon}
             </div>
-
             <h3>{item.title}</h3>
 
             <p>{item.text}</p>
@@ -655,60 +556,38 @@ const handlePublishReply = async (reviewId) => {
 <section className="characters-section">
 
     <div className="section-header">
-
         <h2>Main Characters</h2>
-
         <span>{anime.characters?.length || 0} Characters</span>
-
     </div>
-
     <div className="characters-grid">
-
         {anime.characters?.map(character => (
-
             <div
                 key={character.id}
                 className="character-card"
             >
-
                 <img
                     src={character.imagen}
                     alt={character.nombre}
                     className="character-image"
                 />
-
                 <div className="character-info">
-
                     <h4>
-
                         {character.nombre}
-
                     </h4>
-
                     <span>
-
                         {character.rol}
-
                     </span>
-
                 </div>
-
             </div>
-
         ))}
-
     </div>
 
 </section>
 
-                    <section className="detail-card">
-
+    <section className="detail-card">
     <h2>Opening & Ending Themes</h2>
-
     <div className="themes-container">
-
         <div className="theme-column">
-
             <section className="detail-card">
     <h3>🎵 Opening Themes</h3>
     <div className="music-list">
@@ -722,7 +601,6 @@ const handlePublishReply = async (reviewId) => {
                     <strong>{opening.title}</strong>
                     <span>{opening.artist}</span>
                 </div>
-
                 {opening.song ? (
                     <a
                         className="music-icon"
@@ -743,9 +621,7 @@ const handlePublishReply = async (reviewId) => {
 </section>
 
         </div>
-
         <div className="theme-column">
-
             <section className="detail-card">
     <h3>🎵 Ending Themes</h3>
     <div className="music-list">
@@ -759,7 +635,6 @@ const handlePublishReply = async (reviewId) => {
                     <strong>{ending.title}</strong>
                     <span>{ending.artist}</span>
                 </div>
-
                 {ending.song ? (
                     <a
                         className="music-icon"
@@ -778,75 +653,40 @@ const handlePublishReply = async (reviewId) => {
         ))}
     </div>
 </section>
-
         </div>
-
     </div>
-
 </section>
-
     <section className="detail-card" ref={staffRef}>
-
     <h2>🎬 Production</h2>
-
     <div className="production-grid">
-
         <div className="production-item">
-
             <span>✍</span>
-
             <div>
-
                 <small>Author</small>
-
                 <strong>{anime.production.autor}</strong>
-
             </div>
-
         </div>
-
         <div className="production-item">
-
             <span>🏢</span>
-
             <div>
-
                 <small>Studio</small>
-
                 <strong>{anime.production.estudio}</strong>
-
             </div>
-
         </div>
-
         <div className="production-item">
-
             <span>🎬</span>
-
             <div>
-
                 <small>Director</small>
-
                 <strong>{anime.production.director}</strong>
-
             </div>
-
         </div>
-
         <div className="production-item">
-
             <span>🎵</span>
-
             <div>
-
                 <small>Music</small>
-
                 <strong>{anime.production.musica}</strong>
-
             </div>
-
         </div>
-
     </div>
 
 </section>
@@ -854,7 +694,6 @@ const handlePublishReply = async (reviewId) => {
 <section className="detail-card">
 
     <h2>🌐 Official Links</h2>
-
     <div className="official-links">
 
         <a
@@ -899,7 +738,7 @@ const handlePublishReply = async (reviewId) => {
 
 </section>
 
-                    <section className="detail-card" ref={commentsRef}>
+        <section className="detail-card" ref={commentsRef}>
 
     <h2>Community Reviews</h2>
 
@@ -1042,45 +881,31 @@ const handlePublishReply = async (reviewId) => {
     {!isLogged && (
 
     <div className="login-required">
-
         <div className="login-required-icon">
             💬
         </div>
-
         <h3>Join the AniTrack Community</h3>
-
         <p>
-
             Rate your favorite anime, write reviews, build your personal list,
             and interact with thousands of anime fans around the world.
-
         </p>
-
         <button
             className="btn-primary"
             onClick={() => navigate('/login')}
         >
             Login to Continue
         </button>
-
     </div>
-
 )}
 
     {isLogged && (
-
     <div className="review-form">
-
         <h3>Write Your Review</h3>
-
         <p className="review-form-subtitle">
             Share your thoughts with the AniTrack community.
         </p>
-
         <div className="review-stars">
-
     {[1,2,3,4,5].map((star) => (
-
         <span
             key={star}
             className={
@@ -1098,15 +923,12 @@ const handlePublishReply = async (reviewId) => {
     ))}
 
 </div>
-
         <textarea
     placeholder="What did you think about this anime?"
     value={reviewText}
     onChange={(e) => setReviewText(e.target.value)}
 />
-
         <div className="review-actions">
-
             <button
     className="btn-primary"
     onClick={handlePublishReview}
@@ -1114,19 +936,12 @@ const handlePublishReply = async (reviewId) => {
 >
     Publish Review
 </button>
-
         </div>
-
     </div>
-
 )}
-
 </section>
-
                 </main>
-
             </div>
-
         </div>
     )
 
