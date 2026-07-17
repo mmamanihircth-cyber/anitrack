@@ -27,9 +27,9 @@ class UserRepository {
         await User.findByIdAndDelete(user_id)
     }
 
-    async updateById (user_id, update_data){
-        await User.findByIdAndUpdate(user_id, update_data)
-    }
+    async updateById(user_id, update_data) {
+    return await User.findByIdAndUpdate(user_id, update_data, { new: true });
+}
 }
 
 const userRepository = new UserRepository()

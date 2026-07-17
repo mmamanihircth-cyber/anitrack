@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { Outlet, Navigate } from "react-router"; // 👈 ¡Faltaba agregar Navigate acá!
+import { Outlet, Navigate } from "react-router"; 
 
 function AuthMiddleware() {
     const { isLogged } = useContext(AuthContext);

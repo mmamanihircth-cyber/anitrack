@@ -361,28 +361,29 @@ async updateProfile(req, res) {
         let { imagen_url } = req.body;
         const user = req.user; 
 
+        // 🔍 REVELAR ID: Esto te va a mostrar en la terminal local qué propiedades tiene tu JWT
+        console.log("=== CONTENIDO DE REQ.USER ===", user);
+
         if (!imagen_url) {
-            throw new ServerError("La URL de la imagen es obligatoria", 400);
+            return res.status(400).json({ message: "La URL de la imagen es obligatoria", ok: false });
         }
 
         if (!imagen_url.endsWith('.png') && !imagen_url.endsWith('.jpg') && !imagen_url.endsWith('.jpeg')) {
             imagen_url = `${imagen_url}.png`;
         }
 
-        console.log("===> DEBUG UPDATE PROFILE <===");
-        console.log("Objeto req.user completo:", user);
-        
-        const userId = user?.id || user?._id || user?.id_usuario;
-        console.log("ID detectado para la búsqueda:", userId);
+        // 🛠️ Extraemos dinámicamente cualquier variante para que no falle bajo ningún término
+        const userId = user.id || user._id || user.user_id || user.id_usuario; 
 
-        if (!userId) {
-            throw new ServerError("No se encontró un ID válido en el token del usuario", 401);
-        }
-
+        // Ejecutamos la actualización pasándole el ID que logramos rescatar
         const updatedUser = await userRepository.updateById(userId, { imagen_url });
 
         if (!updatedUser) {
-            throw new ServerError("El usuario no existe en la base de datos JSON", 404);
+            return res.status(404).json({
+                ok: false,
+                status: 404,
+                message: `Usuario no encontrado. ID usado: ${userId}`
+            });
         }
 
         return res.status(200).json({
@@ -393,15 +394,9 @@ async updateProfile(req, res) {
         });
 
     } catch (error) {
-        if (error instanceof ServerError) {
-            return res.status(error.status).json({ message: error.message, ok: false, status: error.status });
-        }
-        
-        console.error("CRASH REAL EN UPDATEPROFILE:", error.message);
-        console.error(error.stack); 
-
+        console.error("Error en updateProfile:", error);
         return res.status(500).json({
-            message: `Error interno del servidor: ${error.message}`,
+            message: "Error interno del servidor",
             ok: false,
             status: 500
         });

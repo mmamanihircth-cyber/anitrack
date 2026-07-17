@@ -17,28 +17,23 @@ const App = () => {
   return (
     <AuthContextProvider>
       <Routes>
-        {/* 🌍 RUTA RAÍZ: Si entran a http://localhost:5173/ los manda al Home */}
         <Route path='/' element={<Navigate to='/home' replace />} />
 
-        {/* 🌍 RUTAS PÚBLICAS: Libres para cualquiera */}
         <Route path='/home' element={<HomeScreen />} />
         <Route path='/anime/:id' element={<AnimeDetailScreen />} />
 
-        {/* 🔒 RUTAS PARA INVITADOS: Protegidas por el middleware separado */}
         <Route element={<AlreadyAuthMiddleware />}>
           <Route path='/login' element={<LoginScreen />} />
           <Route path='/register' element={<RegisterScreen />} />
           <Route path='/reset-password' element={<ResetPasswordScreen />} />
         </Route>
 
-        {/* 🔒 RUTAS PROTEGIDAS: Solo logueados */}
         <Route element={<AuthMiddleware />}>
           <Route path='/profile' element={<ProfileScreen />} />
           <Route path='/workspace/:workspace_id' element={<WorkspaceFeedScreen />} />
           <Route path='/communities' element={<CommunitiesScreen/>}/>
         </Route>
         
-        {/* 🔄 COMODÍN: Cualquier otra cosa rota vuelve al home */}
         <Route path='/*' element={<Navigate to='/home' replace />} />
       </Routes>
     </AuthContextProvider>
