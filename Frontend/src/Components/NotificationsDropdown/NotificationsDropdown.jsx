@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthContext } from '../../context/AuthContext';
 import './NotificationsDropdown.css';
+import { FaBell } from "react-icons/fa";
 
 export function NotificationsDropdown() {
   const [notifications, setNotifications] = useState([]);
@@ -84,7 +85,7 @@ const handleNotificationClick = async (notif) => {
   return (
     <div className="notifications-dropdown-container" ref={dropdownRef}>
       <button className="bell-button" onClick={() => setIsOpen(!isOpen)}>
-        <span className="bell-icon">🔔</span>
+        <span className="bell-icon"><FaBell /></span>
         {unreadCount > 0 && <span className="bell-badge">{unreadCount}</span>}
       </button>
       {isOpen && (

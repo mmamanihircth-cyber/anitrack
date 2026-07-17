@@ -5,6 +5,8 @@ import { login } from '../../services/authService';
 import useRequest from '../../hooks/useRequest';
 import { AuthContext } from '../../context/AuthContext';
 import './LoginScreen.css';
+import { HiEyeSlash } from "react-icons/hi2";
+import { RiEyeOffLine } from "react-icons/ri";
 
 export const LoginScreen = () => {
     const { login: syncroLogin } = useContext(AuthContext);
@@ -96,7 +98,7 @@ export const LoginScreen = () => {
                                     setShowPassword(!showPassword)
                                 }
                             >
-                                {showPassword ? '🙈' : '👁'}
+                                {showPassword ? <RiEyeOffLine /> : <HiEyeSlash />}
                             </button>
                         </div>
                     </div>

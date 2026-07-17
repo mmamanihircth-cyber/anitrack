@@ -391,41 +391,31 @@ body {
 }
 
 .password-wrapper {
-
     position: relative;
-
     display: flex;
-
     align-items: center;
-
+    width: 100%;
 }
 
-.password-wrapper .login-input {
-
-    padding-right: 55px;
-
+.login-input {
+    width: 100%;
+    padding-right: 45px; 
 }
 
 .toggle-password {
-
     position: absolute;
-
-    right: 16px;
-
+    right: 15px;
     background: none;
-
     border: none;
-
-    color: #9BA9C5;
-
     cursor: pointer;
-
-    font-size: 18px;
-
-    transition: .25s;
-
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff; 
+    font-size: 20px; 
+    padding: 0;
+    z-index: 10;
 }
-
 .toggle-password:hover {
 
     color: white;
